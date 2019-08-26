@@ -32,6 +32,7 @@ if (process.env.NODE_ENV === 'production') {
   mockXHR()
 }
 // larfree需要变更
+// import larfree from 'vue-larfree-core'
 import larfree from '../../vue-larfree-core/src/index.js'
 Vue.use(larfree)
 

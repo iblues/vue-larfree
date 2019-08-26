@@ -55,7 +55,7 @@ export const constantRoutes = [
    * larfree start
    */
   {
-    path: '/',
+    path: '/curd',
     component: Layout,
     hidden: true,
     children: [
@@ -66,19 +66,6 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    path: '/curd',
-    component: Layout,
-    redirect: '/guide/index',
-    children: [
-      {
-        path: '/:model/:actn?/:query?/',
-        component: () => import('@/views/curd/list.vue'),
-        name: 'CURD',
-        meta: { title: 'Guide', icon: 'guide', noCache: true }
-      }
-    ]
-  },
   /**
    * larfree end
    */
