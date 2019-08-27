@@ -1,13 +1,38 @@
 <template>
-  <div>
-    <lar-table v-loading="loading" :schemas="schemas" :data="tableData" :api="api" :btn="btns" :show-search="true" />
-  </div>
+  <span>
+    <div class="filter-container">
+      <!--搜索的结果 是通过vuex直接传递给lar-table的 然后也会 提交事件上报-->
+      <lar-search :model="model" :schemas="schemas['search']" :adv-schemas="schemas['advSearch']" />
+    </div>
+    <div>
+      <lar-table v-loading="loading" :model="model" :schemas="schemas" :data="tableData" :api="api" :btn="btns" :show-search="true" />
+    </div>
+    <div class="block" style="text-align: right;padding-bottom: 20px;margin-top: 20px">
+      <el-pagination
+        background
+        :current-page="pageInfo.current_page"
+        :page-sizes="[10, 20, 40, 60, 80, 100, 200]"
+        :page-size="pageInfo.per_page"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="pageInfo.total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
+  </span>
 </template>
 
 <script>
 import { larSchemas, larData } from '@/api/larfree-curd'
+import larSearch from '@/larfree/components/curd/search'
+
+/**
+ * 整合表格,搜索,翻页组件
+ * @author Blues
+ */
 export default {
   name: 'LarList',
+  components: { larSearch },
   props: {
     model: {
       type: String,
@@ -69,12 +94,12 @@ export default {
       return this.$larfree.httpQuery(query, this.api)
     },
 
-    // dataRefreshEvents() {
-    //   return this.$store.getters.getRefreshEvents(this.model)
-    // },
-    // dataRefreshDialog() {
-    //   return this.$store.state.num
-    // },
+    dataRefreshEvents() {
+      return this.$store.getters.getRefreshEvents(this.model)
+    },
+    dataRefreshDialog() {
+      return this.$store.state.num
+    },
 
     /**
      * 管道名,用于通过vuex进行管道通信
@@ -88,6 +113,7 @@ export default {
     searchQuery() {
       // this.zeroing = true
       const data = this.$store.getters.getPipe(this.pipeName)
+      console.log(data);
       console.log(this.$larfree.getSearchQuery(data), 'searchQuery')
       return this.$larfree.getSearchQuery(data)
     }
@@ -169,7 +195,7 @@ export default {
         .then((response) => {
           this.loading = false
           this.tableData = response.data
-          if (response.data.meta) { this.pageInfo = response.data.meta }
+          if (response.meta) { this.pageInfo = response.meta }
 
           // 让他全部加载完了才能开始
           // setTimeout(() => {
@@ -181,6 +207,25 @@ export default {
           console.log('table.vue', error)
           this.$message.error('Table模块请求数据错误')
         })
+    },
+
+    /**
+     * 设置每页大小
+     * @author blues
+     * @param val
+     */
+    handleSizeChange(val) {
+      this.pageInfo.per_page = val
+    },
+
+    /**
+     * 设置当前页数
+     * @author Blues
+     * @param val
+     */
+    handleCurrentChange(val) {
+      this.zeroing = false
+      this.pageInfo.current_page = val
     }
 
   }
