@@ -1,9 +1,17 @@
 <template>
-  <lar-search-box :schemas="schemas" :adv-schemas="advSchemas" @submit="submit" @clear="clearSearch" />
+
+  <span>
+
+    <lar-search-box :schemas="schemas" :adv-schemas="advSchemas" @submit="submit" @clear="clearSearch">
+      <template v-slot:btn>
+        <slot name="btn" />
+      </template>
+    </lar-search-box>
+  </span>
+
 </template>
 
 <script>
-import Vue from 'vue'
 
 export default {
   name: 'LarSearch',

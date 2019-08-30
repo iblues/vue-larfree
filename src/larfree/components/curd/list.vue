@@ -1,8 +1,32 @@
 <template>
-  <span>
+  <span class="lar-list">
     <div class="filter-container">
       <!--搜索的结果 是通过vuex直接传递给lar-table的 然后也会 提交事件上报-->
-      <lar-search :model="model" :schemas="schemas['search']" :adv-schemas="schemas['advSearch']" />
+      <lar-search :model="model" :schemas="schemas['search']" :adv-schemas="schemas['advSearch']">
+        <template v-slot:btn>
+          <span style="margin:0 10px">|</span>
+          <el-button plain icon="el-icon-refresh" size="medium" type="primary" @click="search()">刷新</el-button>
+          <el-button icon="el-icon-upload2" size="medium" @click="search()">导出当页</el-button>
+
+          <span style="margin:0 10px">|</span>
+          <el-button type="primary" icon="el-icon-plus" size="medium" @click="search()">新增</el-button>
+          <el-button type="danger" class="reset-btn" icon="el-icon-delete" size="medium" @click="search()">删除</el-button>
+
+          <span style="float: right">
+            <el-dropdown :hide-on-click="false">
+              <el-button size="medium" class="el-dropdown-link">
+                字段<i class="el-icon-arrow-down el-icon--right" />
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item v-for="field in schemas['fields']" :key="field"> <el-checkbox v-model="field['show']">{{ field.name }}</el-checkbox></el-dropdown-item>
+              <!--<el-dropdown-item disabled> <el-checkbox v-model="checked">备选项</el-checkbox>双皮奶</el-dropdown-item>-->
+              <!--<el-dropdown-item divided> <el-checkbox v-model="checked">备选项</el-checkbox>蚵仔煎</el-dropdown-item>-->
+              </el-dropdown-menu>
+            </el-dropdown>
+          </span>
+
+        </template>
+      </lar-search>
     </div>
     <div>
       <lar-table v-loading="loading" :model="model" :schemas="schemas" :data="tableData" :api="api" :btn="btns" :show-search="true" />
@@ -113,7 +137,7 @@ export default {
     searchQuery() {
       // this.zeroing = true
       const data = this.$store.getters.getPipe(this.pipeName)
-      console.log(data);
+      console.log(data)
       console.log(this.$larfree.getSearchQuery(data), 'searchQuery')
       return this.$larfree.getSearchQuery(data)
     }
@@ -232,6 +256,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+  .el-table th.is-leaf, .el-table td{
+    border-color: rgba(240,240,245,.5)
+  }
 </style>
