@@ -9,6 +9,7 @@ const state = {
     imageHost: process.env.VUE_APP_API_HOST + '/upload/images',
     fileHost: process.env.VUE_APP_API_HOST + '/upload/files'
   },
+  dialogs: [],
   pipe: {}, // 用来互通筛选条件
   num: null, // 用来互通筛选条件
   dataRefreshEvents: '{}' // 监听刷新事件
@@ -33,6 +34,10 @@ const mutations = {
   },
   refreshDialog(state) {
     state.num++
+  },
+  // 新增弹窗
+  dialog(state, dialog) {
+    state.dialogs.push(dialog)
   }
 
 }

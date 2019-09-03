@@ -66,6 +66,13 @@ export const constantRoutes = [
     ]
   },
 
+  {
+    path: '/dialog/curd/:model/:actn?/:query?/',
+    meta: { dialog: true, title: '数据操作' },
+    component: require('@/views/dialog/CommonForm.vue').default,
+    props: { dialog: true }
+  },
+
   /**
    * larfree end
    */
@@ -404,7 +411,8 @@ export const asyncRoutes = [
   },
 
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  // { path: '*', redirect: '/404', hidden: true }
+  { path: '*', component: () => import('@/views/error-page/404'), hidden: true }
 ]
 
 const createRouter = () => new Router({

@@ -47,6 +47,32 @@ Object.keys(filters).forEach(key => {
 
 Vue.config.productionTip = false
 
+// 增加弹窗拦截器,配合larDialog使用
+import NProgress from 'nprogress' // progress bar
+router.beforeEach((to, from, next) => {
+  if (to.path.indexOf('dialog') > 0) {
+    const id = 'dialog' + Math.floor(Math.random() * 1000000000000000)
+    Vue.component(id, to.matched[0].components.default)
+    store.commit('dialog', {
+      id: id,
+      visible: true,
+      dWidth: to.meta.width,
+      params: to.params,
+      title: to.meta.title,
+      closeDialog: i => {
+        // Vue.set(this.dialogs[i], 'visible', false)
+        // this.dialogs.splice(i, 1)
+        // this.closeEnd();
+      }
+    })
+    NProgress.done()
+    next(false)
+  } else {
+    next()
+  }
+})
+
+
 new Vue({
   el: '#app',
   router,
