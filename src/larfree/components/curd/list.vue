@@ -58,15 +58,16 @@
 <script>
 import { larSchemas, larData } from '@/api/larfree-curd'
 import larSearch from '@/larfree/components/curd/search'
+import larDialog from '@/larfree/components/dialog'
 import Vue from 'vue'
-
+import { mapGetters } from 'vuex'
 /**
  * 整合表格,搜索,翻页组件
  * @author Blues
  */
 export default {
   name: 'LarList',
-  components: { larSearch },
+  components: { larSearch, larDialog },
   props: {
     model: {
       type: String,
@@ -109,6 +110,10 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      getPipe: 'larfree/getPipe',
+      getRefreshEvents: 'larfree/getRefreshEvents'
+    }),
     /**
      * 关键属性,用于判断是否需要刷新请求
      * @author Blues
@@ -129,10 +134,10 @@ export default {
     },
 
     dataRefreshEvents() {
-      return this.$store.getters.getRefreshEvents(this.model)
+      return this.getRefreshEvents(this.model)
     },
     dataRefreshDialog() {
-      return this.$store.state.num
+      return this.$store.state.larfree.num
     },
 
     /**
@@ -146,7 +151,7 @@ export default {
     // 读取vuex的搜索参数进行搜索,  注意pipeName
     searchQuery() {
       // this.zeroing = true
-      const data = this.$store.getters.getPipe(this.pipeName)
+      const data = this.getPipe(this.pipeName)
       console.log(data)
       console.log(this.$larfree.getSearchQuery(data), 'searchQuery')
       return this.$larfree.getSearchQuery(data)

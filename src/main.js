@@ -53,7 +53,7 @@ router.beforeEach((to, from, next) => {
   if (to.path.indexOf('dialog') > 0) {
     const id = 'dialog' + Math.floor(Math.random() * 1000000000000000)
     Vue.component(id, to.matched[0].components.default)
-    store.commit('dialog', {
+    store.commit('larfree/dialog', {
       id: id,
       visible: true,
       dWidth: to.meta.width,
@@ -71,7 +71,6 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
-
 
 new Vue({
   el: '#app',

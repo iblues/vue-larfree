@@ -12,7 +12,7 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'LarSearch',
   props: {
@@ -45,6 +45,9 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      getPipe: 'larfree/getPipe'
+    }),
     lastPipeName() {
       return this.pipeName ? this.pipeName : this.model + '.table'
     }
@@ -61,7 +64,7 @@ export default {
   created: function() {
     //          this.initData();
     //             console.info(this.searchData);
-    this.searchData = this.$store.getters.getPipe(this.lastPipeName)
+    this.searchData = this.getPipe(this.lastPipeName)
   },
   methods: {
     // 更新vuex
@@ -72,7 +75,7 @@ export default {
       } else {
         data = []
       }
-      this.$store.commit('pipe', { 'value': data, 'name': this.lastPipeName })
+      this.$store.commit('larfree/pipe', { 'value': data, 'name': this.lastPipeName })
       // this.$emit('input', data);
     },
 
