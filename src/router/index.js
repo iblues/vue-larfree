@@ -54,6 +54,8 @@ export const constantRoutes = [
   /**
    * larfree start
    */
+
+  // 页面类
   {
     path: '/curd',
     component: Layout,
@@ -65,11 +67,39 @@ export const constantRoutes = [
       }
     ]
   },
-
   {
-    path: '/dialog/curd/:model/:actn?/:query?/',
+    path: '/edit',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/edit/:model/:actn?',
+        component: require('@/views/curd/edit.vue').default
+      }
+    ]
+  },
+  {
+    path: '/edit',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/edit/:model/:actn?',
+        component: require('@/views/curd/edit.vue').default
+      }
+    ]
+  },
+
+  // 弹窗类
+  {
+    path: '/dialog/edit/:model/:actn?',
     meta: { dialog: true, title: '数据操作' },
     component: require('@/views/dialog/CommonForm.vue').default,
+    props: { dialog: true }
+  }, {
+    path: '/dialog/show/:model/:actn?',
+    meta: { dialog: true, title: '数据操作' },
+    component: require('@/views/dialog/CommonDetail.vue').default,
     props: { dialog: true }
   },
 

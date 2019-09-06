@@ -19,7 +19,6 @@
         @closeDialog="dialogConfirmClose(index)"
       />
     </el-dialog>
-    {{dialogs}}12313
   </span>
 </template>
 
@@ -32,8 +31,25 @@ export default {
     return {
       params: {},
       dialogConfirmCancel: false,
-      dialogWidth: 0
+      dialogWidth: 0,
+      isPhone: false
       // dialogTitle: [],
+    }
+  },
+  created() {
+    // 判断是不是手机版, 调整弹窗的样式
+    const ua = navigator.userAgent
+    const ipad = ua.match(/(iPad).*OS\s([\d_]+)/)
+    const isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/)
+    const isAndroid = ua.match(/(Android)\s+([\d.]+)/)
+    const isMobile = isIphone || isAndroid
+    // console.info('isMobile',isMobile);
+    if (isMobile) {
+      this.isPhone = true
+      // this.isCollapse = true;
+    } else {
+      this.isPhone = false
+      // this.isCollapse = false;
     }
   },
   computed: {
@@ -44,6 +60,9 @@ export default {
   methods: {
     dialogChange(visible) {
       this.$store.commit('dialog', visible)
+    },
+    closeEnd() {
+
     },
     changeDialogTitle(data) {
       // this.dialogTitle.push(val);
