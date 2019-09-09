@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import { mapState } from 'vuex'
 export default {
   name: 'LarDialog',
@@ -35,6 +34,12 @@ export default {
       isPhone: false
       // dialogTitle: [],
     }
+  },
+
+  computed: {
+    ...mapState({
+      dialogs: state => state.larfree.dialogs
+    })
   },
   created() {
     // 判断是不是手机版, 调整弹窗的样式
@@ -51,11 +56,6 @@ export default {
       this.isPhone = false
       // this.isCollapse = false;
     }
-  },
-  computed: {
-    ...mapState({
-      dialogs: state => state.larfree.dialogs
-    })
   },
   methods: {
     dialogChange(visible) {

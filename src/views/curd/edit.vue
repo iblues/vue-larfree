@@ -1,17 +1,17 @@
 <template>
 
   <div class="app-container" style="background: rgba(240,240,245,.5)">
-
-    <ui-plane title="数据编辑">
+    <ui-plane>
       <lar-edit :id="id" :model="model" />
     </ui-plane>
   </div>
 </template>
 <script>
 import LarEdit from '@/larfree/components/curd/edit'
+import UiPlane from '@/components/Ui/Plane'
 
 export default {
-  components: { LarEdit },
+  components: { UiPlane, LarEdit },
   data() {
     return {
       test: '测试',

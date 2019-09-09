@@ -78,17 +78,17 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/edit',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: '/edit/:model/:actn?',
-        component: require('@/views/curd/edit.vue').default
-      }
-    ]
-  },
+  // {
+  //   path: '/show',
+  //   component: Layout,
+  //   hidden: true,
+  //   children: [
+  //     {
+  //       path: '/show/:model/:actn?',
+  //       component: require('@/views/curd/show.vue').default
+  //     }
+  //   ]
+  // },
 
   // 弹窗类
   {

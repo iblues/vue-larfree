@@ -3,238 +3,163 @@
 
     <!--表格控件-->
     <div>
-      <lar-form v-loading="loading" :model="model" :schemas="schemas" :data="tableData" :api="api" :btn="btns" :show-search="true" />
+      <lar-form v-loading="loading" :model="model" :schemas="Schemas" :data="tableData" />
     </div>
 
   </span>
 </template>
 
 <script>
-import { larSchemas, larData } from '@/api/larfree-curd'
-import { mapGetters } from 'vuex'
-/**
- * 整合表格,搜索,翻页组件
- * @author Blues
- */
+import { larSchemas } from '@/api/larfree-curd'
 export default {
-  name: 'LarEdit',
   props: {
+    id: {
+      type: [String, Number],
+      default: 0
+    },
     model: {
       type: String,
-      default: 'common.user'
+      default: 'common.user',
+      required: true
     },
-    action: {
+    module: {
       type: String,
-      default: 'base.table'
-    },
-    pageSize: {
-      type: Number,
-      default: 10
-    },
-    params: {
-      type: Object,
-      default: function() {
-        return {}
-      }
+      default: 'base.edit',
+      required: true
     }
   },
   data() {
     return {
-      isShowCheck: true,
-      isShowDrop: true,
-      title: '',
-
-      api: '',
-      apiQuery: {}, // ?默认的查询参数
-      loading: true,
+      debug: false,
+      errors: [],
+      formData: {},
       tableData: [],
-
-      btns: {},
-      schemas: {},
-      data: {},
-      pageInfo: {
-        per_page: 10,
-        total: 0,
-        current_page: 1
-      }
+      api: '',
+      Schemas: [],
+      mode: 'add',
+      loading: true
     }
   },
-  computed: {
-    ...mapGetters({
-      getPipe: 'larfree/getPipe',
-      getRefreshEvents: 'larfree/getRefreshEvents'
-    }),
-    /**
-     * 关键属性,用于判断是否需要刷新请求
-     * @author Blues
-     **/
-    fullApi: function() {
-      console.log(this.pipeName, 'pipe')
-      if (!this.api) { return '' }
-      // 读取额外查询查询
-      let query = this.apiQuery
-      // 分页
-      query['pageSize'] = this.pageInfo.per_page * 1
-      query['page'] = this.pageInfo.current_page
-      query = Object.assign(query, this.searchQuery)
-      if (this.params) {
-        query = Object.assign(query, this.params)
-      }
-      return this.$larfree.httpQuery(query, this.api)
-    },
 
-    dataRefreshEvents() {
-      return this.getRefreshEvents(this.model)
-    },
-    dataRefreshDialog() {
-      return this.$store.state.larfree.num
-    },
-
-    /**
-     * 管道名,用于通过vuex进行管道通信
-     * @author Blues
-     **/
-    pipeName() {
-      return this.schemas.pipeName ? this.schemas.pipeName : this.model + '.table'
-    },
-
-    // 读取vuex的搜索参数进行搜索,  注意pipeName
-    searchQuery() {
-      // this.zeroing = true
-      const data = this.getPipe(this.pipeName)
-      console.log(data)
-      console.log(this.$larfree.getSearchQuery(data), 'searchQuery')
-      return this.$larfree.getSearchQuery(data)
-    }
-    // searchSchemas: function() {
-    //   if (!this.schemas) { return [] }
-    //   return this.schemas['search']
-    // },
-    // advSchemas: function() {
-    //   if (!this.schemas || !this.schemas['adv_search']) { return [] }
-    //   return this.schemas['adv_search']
-    // }
-  },
   watch: {
-    model: function() {
-      // 清理旧数据
-      this.apiQuery = {}
+    id: function() {
+      this.loading = true
       this.getSchemas()
     },
-    dataRefreshEvents: function() {
-      this.loading = true
-      this.getData()
+    model: function() {
+      // this.loading=true;
+      // this.getSchemas();
     },
-    dataRefreshDialog: function() {
-      this.loading = true
-      this.getData()
+    readApi: function() {
+      // this.getData();
     },
-    // 如果api变化就请求数据
-    fullApi: function() {
-      this.loading = true
-      this.getData()
+    mode: function() {
+      if (this.mode === 'add') { this.$emit('title', '添加') } else { this.$emit('title', '编辑') }
     }
   },
-  created() {
-    this.getSchemas(this.model, this.action)
+
+  created: function() {
+    this.getSchemas(this.model, this.module)
+    this.debug = localStorage.getItem('debug')
+    this.$emit('title', '添加')
+    // this.dataChange();
   },
+
   methods: {
-    /**
-     * 从larfree系统获取当前列表的配置细信息
-     * @author Blues
-     * @param model 模块名 如common.user
-     * @param module 场景单元 如base.table.register
-     */
+    updateData(data) {
+      this.formData = data
+    },
     getSchemas(model, module) {
-      if (!model) { return '' }
-      this.loading = true
-      larSchemas(model, module)
-        .then((response) => {
+      if (this.id) {
+        this.mode = 'edit'
+      }
+
+      larSchemas(model, module, `?mode=${this.mode}`).then((response) => {
+        this.Schemas = response.data
+        if (this.mode === 'edit') {
+          // 编辑模式,需先读取数据
+          this.readApi = this.$larfree.replaceParm(response.data.config.readApi, this)
+          this.getData()
+        } else {
+          // this.getData();
+          this.readApi = ''
+          // 添加模式 直接加载完成
           this.loading = false
-          this.schemas = response.data
-          // 确定请求api
-          this.api = response.data.config.api
-          this.btns = response.data.config.button
-          console.log(this.Schemas)
-          this.tableData = []
-        })
-        .catch((error) => {
-          this.loading = false
-          this.$message.error('Table模块请求错误')
-          console.log(error)
-        })
+          this.$emit('loaded')
+        }
+        // 更新接口
+        this.api = this.$larfree.replaceParm(response.data.config.api, this)
+      }).catch((error) => {
+        this.$message.error(error.response.data.msg)
+        //                    console.log(error);
+      })
     },
 
-    /**
-     * 根据fullApi属性, 获取列表数据
-     * @author Blues
-     * @returns {boolean}
-     */
     getData() {
+      // 根据配置 初始化添加的数据结构
+      if (this.mode === 'add') {
+        const Schemas = {}
+        for (var key in this.Schemas['fields']) {
+          const name = this.Schemas['fields'][key]['key']
+          Schemas[name] = ''
+        }
+        this.formData = Schemas
+        this.loading = false
+      } else {
+        this.$http.get(this.readApi)
+          .then((response) => {
+            this.loading = false
+            if (response.data.status === 1) {
+              this.$emit('loaded')
+              this.$debug.log(response.data.data, this.api, this)
+              this.formData = response.data.data
+            } else {
+              this.$message.error('数据错误')
+            }
+          })
+          .catch((error) => {
+            this.loading = false
+            this.$message.error(error.response.data.msg)
+            //                        console.log(error);
+          })
+      }
+    },
+
+    onSubmit() {
+      this.$emit('loading')
       this.loading = true
-      // this.canQuickChange = false
-      if (this.zeroing) {
-        this.pageInfo.current_page = 1
-      }
-      console.log(this.fullApi, 'api')
-      if (!this.fullApi) {
-        return false
-      }
-      larData(this.fullApi)
-        .then((response) => {
-          this.loading = false
-          this.tableData = response.data
-          if (response.meta) { this.pageInfo = response.meta }
+      this.$debug.log(this.formData, 'submit', this)
+      let http
+      if (this.mode === 'add') { http = this.$http.post(this.api, this.formData) } else { http = this.$http.put(this.api, this.formData) }
 
-          // 让他全部加载完了才能开始
-          // setTimeout(() => {
-          //   this.canQuickChange = true
-          // }, 300)
-          this.zeroing = false
-        })
-        .catch((error) => {
-          console.log('table.vue', error)
-          this.$message.error('Table模块请求数据错误')
-        })
+      http.then((response) => {
+        this.loading = false
+        if (response.data.status === 1) {
+          this.$message.success(response.data.msg)
+          this.formData = response.data.data
+          this.$store.commit('refreshEvents', this.model)
+          this.$store.commit('refreshDialog')
+          this.$emit('back')
+        } else {
+          this.errors = response.data.data
+          this.$message.error(response.data.msg)
+          this.$larfree.goToTop()
+        }
+      }).catch((error) => {
+        this.loading = false
+        this.$message.error(error.response.data.msg)
+        return true
+      })
+      //            this.$debug.log(this.formData,'test');
     },
 
-    /**
-     * 设置每页大小
-     * @author blues
-     * @param val
-     */
-    handleSizeChange(val) {
-      this.pageInfo.per_page = val
+    cancel() {
+      this.$emit('back')
     },
 
-    /**
-     * 设置当前页数
-     * @author Blues
-     * @param val
-     */
-    handleCurrentChange(val) {
-      this.zeroing = false
-      this.pageInfo.current_page = val
+    dataChange() {
+      this.$emit('change')
     }
-
   }
 }
 </script>
-
-<style>
-  @media (max-width: 380px) {
-    .search_box .divide{
-      display: none;
-    }
-  }
-
-  .search_box .divide{
-    margin:0 10px;
-  }
-  .search_box .el-button{
-    margin-bottom: 2px !important;
-  }
-  .el-table th.is-leaf, .el-table td{
-    border-color: rgba(240,240,245,.5)
-  }
-</style>
