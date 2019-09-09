@@ -68,12 +68,23 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/add',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/add/:model/:module?',
+        component: require('@/views/curd/edit.vue').default
+      }
+    ]
+  },
+  {
     path: '/edit',
     component: Layout,
     hidden: true,
     children: [
       {
-        path: '/edit/:model/:actn?',
+        path: '/edit/:model/:id?/:module?',
         component: require('@/views/curd/edit.vue').default
       }
     ]

@@ -31,10 +31,11 @@ import { mockXHR } from '../mock'
 if (process.env.NODE_ENV === 'production') {
   mockXHR()
 }
+console.log(process.env.VUE_APP_BASE_API, 'host2')
 // larfree需要变更
 // import larfree from 'vue-larfree-core'
 import larfree from '../../vue-larfree-core/src/index.js'
-Vue.use(larfree)
+Vue.use(larfree, { host: process.env.VUE_APP_BASE_API })
 
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size

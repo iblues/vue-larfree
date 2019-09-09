@@ -3,14 +3,21 @@
 
     <!--表格控件-->
     <div>
-      <lar-form v-loading="loading" :model="model" :schemas="Schemas" :data="tableData" />
+      <lar-form v-model="formData" v-loading="loading" :model="model" :schemas="Schemas" @submit="onSubmit">
+        <template v-slot:bottom>
+          <div style="text-align: center;margin-top: 20px">
+            <el-button type="primary" @click="onSubmit">确定</el-button>
+            <el-button @click="cancel">取消</el-button>
+          </div>
+        </template>
+      </lar-form>
     </div>
 
   </span>
 </template>
 
 <script>
-import { larSchemas } from '@/api/larfree-curd'
+import { larSchemas, larData } from '@/api/larfree-curd'
 export default {
   props: {
     id: {
@@ -24,8 +31,7 @@ export default {
     },
     module: {
       type: String,
-      default: 'base.edit',
-      required: true
+      default: 'base.edit'
     }
   },
   data() {
@@ -33,9 +39,8 @@ export default {
       debug: false,
       errors: [],
       formData: {},
-      tableData: [],
       api: '',
-      Schemas: [],
+      Schemas: {},
       mode: 'add',
       loading: true
     }
@@ -51,7 +56,7 @@ export default {
       // this.getSchemas();
     },
     readApi: function() {
-      // this.getData();
+      this.getData()
     },
     mode: function() {
       if (this.mode === 'add') { this.$emit('title', '添加') } else { this.$emit('title', '编辑') }
@@ -69,7 +74,10 @@ export default {
     updateData(data) {
       this.formData = data
     },
+
+    // 读取配置文件
     getSchemas(model, module) {
+      // 如果有主键,应该是编辑模式
       if (this.id) {
         this.mode = 'edit'
       }
@@ -95,6 +103,7 @@ export default {
       })
     },
 
+    // 如果是编辑模式,读取远程数据
     getData() {
       // 根据配置 初始化添加的数据结构
       if (this.mode === 'add') {
@@ -106,48 +115,52 @@ export default {
         this.formData = Schemas
         this.loading = false
       } else {
-        this.$http.get(this.readApi)
-          .then((response) => {
-            this.loading = false
-            if (response.data.status === 1) {
-              this.$emit('loaded')
-              this.$debug.log(response.data.data, this.api, this)
-              this.formData = response.data.data
-            } else {
-              this.$message.error('数据错误')
-            }
-          })
-          .catch((error) => {
-            this.loading = false
-            this.$message.error(error.response.data.msg)
-            //                        console.log(error);
-          })
+        larData(this.readApi).then((response) => {
+          this.loading = false
+          if (response.status === 1) {
+            this.$emit('loaded')
+            this.$debug.log(response.data, this.api, this)
+            this.formData = response.data
+          } else {
+            this.$message.error('数据错误')
+          }
+        }).catch((error) => {
+          this.loading = false
+          this.$message.error(error.response.msg)
+          //                        console.log(error);
+        })
       }
     },
 
+    // 保存/添加数据
     onSubmit() {
       this.$emit('loading')
       this.loading = true
       this.$debug.log(this.formData, 'submit', this)
       let http
-      if (this.mode === 'add') { http = this.$http.post(this.api, this.formData) } else { http = this.$http.put(this.api, this.formData) }
+      // 添加是post, 编辑是put
+      if (this.mode === 'add') {
+        http = this.$http.post(this.api, this.formData)
+      } else {
+        http = this.$http.put(this.api, this.formData)
+      }
 
       http.then((response) => {
         this.loading = false
         if (response.data.status === 1) {
-          this.$message.success(response.data.msg)
-          this.formData = response.data.data
+          this.$message.success(response.msg)
+          this.formData = response.data
           this.$store.commit('refreshEvents', this.model)
           this.$store.commit('refreshDialog')
           this.$emit('back')
         } else {
-          this.errors = response.data.data
+          this.errors = response.data
           this.$message.error(response.data.msg)
           this.$larfree.goToTop()
         }
       }).catch((error) => {
         this.loading = false
-        this.$message.error(error.response.data.msg)
+        this.$message.error(error.response.msg)
         return true
       })
       //            this.$debug.log(this.formData,'test');
