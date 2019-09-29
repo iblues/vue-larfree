@@ -69,11 +69,14 @@ export const constantRoutes = [
     path: '/dialog/edit/:model/:actn?',
     meta: { dialog: true, title: '数据操作' },
     component: require('@/views/dialog/CommonForm.vue').default,
+    hidden: true,
     props: { dialog: true }
-  }, {
+  },
+  {
     path: '/dialog/show/:model/:actn?',
-    meta: { dialog: true, title: '数据操作' },
+    meta: { dialog: true, title: '数据查看' },
     component: require('@/views/dialog/CommonDetail.vue').default,
+    hidden: true,
     props: { dialog: true }
   },
 
@@ -101,19 +104,20 @@ export const constantRoutes = [
     component: () => import('@/views/error-page/401'),
     hidden: true
   },
-  // {
-  //   path: '/',
-  //   component: Layout,
-  //   redirect: '/dashboard',
-  //   children: [
-  //     {
-  //       path: 'dashboard',
-  //       component: () => import('@/views/dashboard/index'),
-  //       name: 'Dashboard',
-  //       meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
-  //     }
-  //   ]
-  // },
+
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/dashboard',
+    children: [
+      {
+        path: 'dashboard',
+        component: () => import('@/views/dashboard/index'),
+        name: 'Dashboard',
+        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
   {
     path: '/documentation',
     component: Layout,
@@ -222,6 +226,7 @@ export const asyncRoutes = [
   {
     path: '/curd',
     component: Layout,
+    hidden: false,
     children: [
       {
         path: '/curd/:model/:actn?/:query?/',
@@ -232,6 +237,7 @@ export const asyncRoutes = [
   {
     path: '/add',
     component: Layout,
+    hidden: false,
     children: [
       {
         path: '/add/:model/:module?',
@@ -242,6 +248,7 @@ export const asyncRoutes = [
   {
     path: '/edit',
     component: Layout,
+    hidden: false,
     children: [
       {
         path: '/edit/:model/:id?',
@@ -315,7 +322,6 @@ export const asyncRoutes = [
   //     }
   //   ]
   // },
-
   // {
   //   path: '/error',
   //   component: Layout,
@@ -340,8 +346,6 @@ export const asyncRoutes = [
   //     }
   //   ]
   // },
-
-
   //
   // {
   //   path: '/excel',
