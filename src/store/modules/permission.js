@@ -1,5 +1,5 @@
 import { asyncRoutes, constantRoutes } from '@/router'
-
+import { getNav } from '@/api/user'
 /**
  * Use meta.role to determine if the current user has permission
  * @param roles
@@ -11,6 +11,10 @@ function hasPermission(roles, route) {
   } else {
     return true
   }
+}
+
+function rebuildRouters(asyncRoutes,adminNav) {
+  return asyncRoutes
 }
 
 /**
@@ -48,15 +52,23 @@ const mutations = {
 
 const actions = {
   generateRoutes({ commit }, roles) {
-    return new Promise(resolve => {
-      let accessedRoutes
-      if (roles.includes('admin')) {
-        accessedRoutes = asyncRoutes || []
-      } else {
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-      }
-      commit('SET_ROUTES', accessedRoutes)
-      resolve(accessedRoutes)
+    // 获取服务器的地址
+    return new Promise((resolve, reject) => {
+      getNav().then((adminNav) => {
+        let accessedRoutes
+        // todo 需要重组整个路由
+        accessedRoutes = rebuildRouters(asyncRoutes, adminNav)
+        if (roles.includes('admin')) {
+          accessedRoutes = accessedRoutes || []
+        } else {
+          accessedRoutes = filterAsyncRoutes(accessedRoutes, roles)
+        }
+        console.log('应该在accessRoutes前面', accessedRoutes)
+        commit('SET_ROUTES', accessedRoutes)
+        resolve(accessedRoutes)
+      }).catch((err) => {
+        reject(err)
+      })
     })
   }
 }

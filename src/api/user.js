@@ -22,3 +22,9 @@ export function logout() {
     method: 'post'
   })
 }
+export function getNav() {
+  return request({
+    url: '/api/admin/admin/nav/tree',
+    method: 'get'
+  })
+}
