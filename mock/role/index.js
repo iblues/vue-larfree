@@ -41,6 +41,7 @@ export default [
     url: '/routes',
     type: 'get',
     response: _ => {
+      console.log('router', routes)
       return {
         code: 20000,
         data: routes

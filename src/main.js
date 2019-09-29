@@ -72,7 +72,7 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
-
+console.log(router);
 new Vue({
   el: '#app',
   router,
