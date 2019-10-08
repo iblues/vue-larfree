@@ -117,7 +117,6 @@ export default {
      * @author Blues
      **/
     fullApi: function() {
-      console.log(this.pipeName, 'pipe')
       if (!this.api) { return '' }
       // 读取额外查询查询
       let query = this.apiQuery
@@ -150,7 +149,6 @@ export default {
     searchQuery() {
       // this.zeroing = true
       const data = this.getPipe(this.pipeName)
-      console.log(data)
       console.log(this.$larfree.getSearchQuery(data), 'searchQuery')
       return this.$larfree.getSearchQuery(data)
     }

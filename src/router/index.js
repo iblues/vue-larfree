@@ -64,26 +64,6 @@ export const constantRoutes = [
   //   ]
   // },
 
-  // 弹窗类
-  {
-    path: '/dialog/edit/:model/:actn?',
-    meta: { dialog: true, title: '数据操作' },
-    component: require('@/views/dialog/CommonForm.vue').default,
-    hidden: true,
-    props: { dialog: true }
-  },
-  {
-    path: '/dialog/show/:model/:actn?',
-    meta: { dialog: true, title: '数据查看' },
-    component: require('@/views/dialog/CommonDetail.vue').default,
-    hidden: true,
-    props: { dialog: true }
-  },
-
-  /**
-   * larfree end
-   */
-
   {
     path: '/login',
     component: () => import('@/views/login/index'),
@@ -118,6 +98,48 @@ export const constantRoutes = [
       }
     ]
   },
+
+  // // 案例
+  // {
+  //   path: '/curd/common.user/',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       url: '/curd/common.user/test/test',
+  //       path: '/curd/:model(common.user)/:actn?/:query?/',
+  //       meta: { title: '用户管理2', icon: 'dashboard', affix: true },
+  //       component: require('@/views/curd/list.vue').default
+  //     }
+  //   ]
+  // },
+
+  // // 案例
+  // {
+  //   path: '/',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       id: 3,
+  //       url: '/curd/common.user/test/test',
+  //       path: '/curd/:model/:actn?/:query?/',
+  //       meta: { title: '用户管理2', icon: 'dashboard', affix: true },
+  //       component: require('@/views/curd/list.vue').default
+  //     },
+  //     {
+  //       path: '/curd/common.user/',
+  //       component: Layout,
+  //       children: [
+  //         {
+  //           url: '/curd/common.user/test/test2',
+  //           path: '/curd/:model/:actn?/:query?/',
+  //           meta: { title: '用户管理', icon: 'dashboard', affix: true },
+  //           component: require('@/views/curd/list.vue').default
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // },
+
   {
     path: '/documentation',
     component: Layout,
@@ -165,7 +187,7 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   /**
-  // {
+   // {
   //   path: '/permission',
   //   component: Layout,
   //   redirect: '/permission/page',
@@ -207,7 +229,7 @@ export const asyncRoutes = [
   //   ]
   // },
 
-  // {
+   // {
   //   path: '/icon',
   //   component: Layout,
   //   children: [
@@ -219,42 +241,31 @@ export const asyncRoutes = [
   //     }
   //   ]
   // },
-  **/
+   **/
   /**  larfree start **/
 
   // 页面类
+
   {
-    path: '/curd',
-    component: Layout,
     hidden: false,
-    children: [
-      {
-        path: '/curd/:model/:actn?/:query?/',
-        component: require('@/views/curd/list.vue').default
-      }
-    ]
+    uniqueKey: 'curd/table',
+    path: '/curd/:model/:actn?/:query?/',
+    meta: { 'title': '数据管理', 'icon': 'edit' },
+    component: require('@/views/curd/list.vue').default
   },
   {
-    path: '/add',
-    component: Layout,
     hidden: false,
-    children: [
-      {
-        path: '/add/:model/:module?',
-        component: require('@/views/curd/edit.vue').default
-      }
-    ]
+    uniqueKey: 'curd/add',
+    path: '/curd/add/:model/:module?',
+    meta: { 'title': '数据添加', 'icon': 'edit' },
+    props: true,
+    component: require('@/views/curd/edit.vue').default
   },
   {
-    path: '/edit',
-    component: Layout,
-    hidden: false,
-    children: [
-      {
-        path: '/edit/:model/:id?',
-        component: require('@/views/curd/edit.vue').default
-      }
-    ]
+    uniqueKey: 'curd/edit',
+    path: '/curd/edit/:model/:id?',
+    meta: { 'title': '数据添加', 'icon': 'edit' },
+    component: require('@/views/curd/edit.vue').default
   },
 
   /** when your routing map is too long, you can split it into small modules **/
@@ -278,7 +289,7 @@ export const asyncRoutes = [
 
   /**
 
-  // {
+   // {
   //   path: '/example',
   //   component: Layout,
   //   redirect: '/example/list',
@@ -310,7 +321,7 @@ export const asyncRoutes = [
   //   ]
   // },
 
-  // {
+   // {
   //   path: '/tab',
   //   component: Layout,
   //   children: [
@@ -322,7 +333,7 @@ export const asyncRoutes = [
   //     }
   //   ]
   // },
-  // {
+   // {
   //   path: '/error',
   //   component: Layout,
   //   redirect: 'noRedirect',
@@ -346,8 +357,8 @@ export const asyncRoutes = [
   //     }
   //   ]
   // },
-  //
-  // {
+   //
+   // {
   //   path: '/excel',
   //   component: Layout,
   //   redirect: '/excel/export-excel',
@@ -383,8 +394,8 @@ export const asyncRoutes = [
   //     }
   //   ]
   // },
-  //
-  // {
+   //
+   // {
   //   path: '/zip',
   //   component: Layout,
   //   redirect: '/zip/download',
@@ -400,8 +411,8 @@ export const asyncRoutes = [
   //     }
   //   ]
   // },
-  //
-  // {
+   //
+   // {
   //   path: '/pdf',
   //   component: Layout,
   //   redirect: '/pdf/index',
@@ -414,13 +425,13 @@ export const asyncRoutes = [
   //     }
   //   ]
   // },
-  // {
+   // {
   //   path: '/pdf/download',
   //   component: () => import('@/views/pdf/download'),
   //   hidden: true
   // },
 
-  {
+   {
     path: '/theme',
     component: Layout,
     children: [
@@ -433,7 +444,7 @@ export const asyncRoutes = [
     ]
   },
 
-  // {
+   // {
   //   path: '/clipboard',
   //   component: Layout,
   //   children: [
@@ -446,7 +457,7 @@ export const asyncRoutes = [
   //   ]
   // },
 
-  // {
+   // {
   //   path: 'external-link',
   //   component: Layout,
   //   children: [
