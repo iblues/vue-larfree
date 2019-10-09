@@ -33,8 +33,9 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      login({ phone: username.trim(), password: password }).then(response => {
         const { data } = response
+        console.log(data.token)
         commit('SET_TOKEN', data.token)
         setToken(data.token)
         resolve()
@@ -54,13 +55,15 @@ const actions = {
           reject('Verification failed, please Login again.')
         }
 
-        const { roles, name, avatar, introduction } = data
+        const { name, avatar, introduction } = data
 
-        // roles must be a non-empty array
+        let roles = data.roles
+        // 如果roles不存在,就自动赋值为管理员角色
         if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
+          roles = ['admin']
+          data.roles = roles
+          // reject('getInfo: roles must be a non-null array!')
         }
-
         commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
