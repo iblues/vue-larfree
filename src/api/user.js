@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/api/admin/user/session',
+    url: '/user/session',
     method: 'post',
     data
   })
@@ -10,7 +10,7 @@ export function login(data) {
 
 export function getInfo(token) {
   return request({
-    url: '/api/admin/user/admin/0',
+    url: '/user/admin/0',
     method: 'get',
     params: { token }
   })
@@ -18,13 +18,13 @@ export function getInfo(token) {
 
 export function logout() {
   return request({
-    url: '/api/admin/user/session',
+    url: '/user/session',
     method: 'delete'
   })
 }
 export function getNav() {
   return request({
-    url: '/api/admin/admin/nav/tree',
+    url: '/admin/nav/tree',
     method: 'get'
   })
 }

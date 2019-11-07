@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function larSchemas(model, module = 'base.table', query = '') {
   return request({
-    url: '/api/admin/system/component/' + model + '/' + module,
+    url: '/system/component/' + model + '/' + module,
     method: 'get',
     params: query
   })
