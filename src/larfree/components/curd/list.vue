@@ -21,7 +21,15 @@
 
     <!--表格控件-->
     <div>
-      <lar-table v-loading="loading" :model="model" :schemas="schemas" :data="tableData" :api="api" :btn="btns" :show-search="true" />
+      <lar-table
+        v-loading="loading"
+        :model="model"
+        :schemas="schemas"
+        :data="tableData"
+        :api="api"
+        :btn="btns"
+        :show-search="true"
+      />
     </div>
 
     <!--底部控件-->
@@ -59,10 +67,12 @@ import { larSchemas, larData } from '@/api/larfree-curd'
 import larSearch from '@/larfree/components/curd/search'
 import larDialog from '@/larfree/components/dialog'
 import { mapGetters } from 'vuex'
+import router from '@/router'
+
 /**
- * 整合表格,搜索,翻页组件
- * @author Blues
- */
+   * 整合表格,搜索,翻页组件
+   * @author Blues
+   */
 export default {
   name: 'LarList',
   components: { larSearch, larDialog },
@@ -113,11 +123,13 @@ export default {
       getRefreshEvents: 'larfree/getRefreshEvents'
     }),
     /**
-     * 关键属性,用于判断是否需要刷新请求
-     * @author Blues
-     **/
+       * 关键属性,用于判断是否需要刷新请求
+       * @author Blues
+       **/
     fullApi: function() {
-      if (!this.api) { return '' }
+      if (!this.api) {
+        return ''
+      }
       // 读取额外查询查询
       let query = this.apiQuery
       // 分页
@@ -138,9 +150,9 @@ export default {
     },
 
     /**
-     * 管道名,用于通过vuex进行管道通信
-     * @author Blues
-     **/
+       * 管道名,用于通过vuex进行管道通信
+       * @author Blues
+       **/
     pipeName() {
       return this.schemas.pipeName ? this.schemas.pipeName : this.model + '.table'
     },
@@ -186,13 +198,15 @@ export default {
   },
   methods: {
     /**
-     * 从larfree系统获取当前列表的配置细信息
-     * @author Blues
-     * @param model 模块名 如common.user
-     * @param module 场景单元 如base.table.register
-     */
+       * 从larfree系统获取当前列表的配置细信息
+       * @author Blues
+       * @param model 模块名 如common.user
+       * @param module 场景单元 如base.table.register
+       */
     getSchemas(model, module) {
-      if (!model) { return '' }
+      if (!model) {
+        return ''
+      }
       this.loading = true
       larSchemas(model, module)
         .then((response) => {
@@ -212,10 +226,10 @@ export default {
     },
 
     /**
-     * 根据fullApi属性, 获取列表数据
-     * @author Blues
-     * @returns {boolean}
-     */
+       * 根据fullApi属性, 获取列表数据
+       * @author Blues
+       * @returns {boolean}
+       */
     getData() {
       this.loading = true
       // this.canQuickChange = false
@@ -230,7 +244,9 @@ export default {
         .then((response) => {
           this.loading = false
           this.tableData = response.data
-          if (response.meta) { this.pageInfo = response.meta }
+          if (response.meta) {
+            this.pageInfo = response.meta
+          }
 
           // 让他全部加载完了才能开始
           // setTimeout(() => {
@@ -245,22 +261,36 @@ export default {
     },
 
     /**
-     * 设置每页大小
-     * @author blues
-     * @param val
-     */
+       * 设置每页大小
+       * @author blues
+       * @param val
+       */
     handleSizeChange(val) {
       this.pageInfo.per_page = val
     },
 
     /**
-     * 设置当前页数
-     * @author Blues
-     * @param val
-     */
+       * 设置当前页数
+       * @author Blues
+       * @param val
+       */
     handleCurrentChange(val) {
       this.zeroing = false
       this.pageInfo.current_page = val
+    },
+
+    /**
+       * 按钮组的捕捉
+       * @param button
+       */
+    handelButton(button) {
+      if (button.url) {
+        this.$router.push(button.url)
+      }
+    },
+
+    search() {
+      this.getData();
     }
 
   }
@@ -268,19 +298,21 @@ export default {
 </script>
 
 <style>
-  @media (max-width: 380px) {
-    .search_box .divide{
-      display: none;
+    @media (max-width: 380px) {
+        .search_box .divide {
+            display: none;
+        }
     }
-  }
 
-  .search_box .divide{
-    margin:0 10px;
-  }
-  .search_box .el-button{
-    margin-bottom: 2px !important;
-  }
-  .el-table th.is-leaf, .el-table td{
-    border-color: rgba(240,240,245,.5)
-  }
+    .search_box .divide {
+        margin: 0 10px;
+    }
+
+    .search_box .el-button {
+        margin-bottom: 2px !important;
+    }
+
+    .el-table th.is-leaf, .el-table td {
+        border-color: rgba(240, 240, 245, .5)
+    }
 </style>
