@@ -4,6 +4,7 @@
 
 <script>
 import echarts from 'echarts'
+
 require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
 
@@ -62,7 +63,7 @@ export default {
         },
         xAxis: [{
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: ['2013', '2014', '2015', '2016', '2017', '2018', '2019'],
           axisTick: {
             alignWithLabel: true
           }
@@ -74,21 +75,21 @@ export default {
           }
         }],
         series: [{
-          name: 'pageA',
+          name: '耕地',
           type: 'bar',
           stack: 'vistors',
           barWidth: '60%',
           data: [79, 52, 200, 334, 390, 330, 220],
           animationDuration
         }, {
-          name: 'pageB',
+          name: '牧地',
           type: 'bar',
           stack: 'vistors',
           barWidth: '60%',
           data: [80, 52, 200, 334, 390, 330, 220],
           animationDuration
         }, {
-          name: 'pageC',
+          name: '宅基地',
           type: 'bar',
           stack: 'vistors',
           barWidth: '60%',

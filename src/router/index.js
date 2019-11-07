@@ -94,7 +94,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        meta: { title: '首页', icon: 'dashboard', affix: true }
       }
     ]
   },
@@ -140,31 +140,31 @@ export const constantRoutes = [
   //   ]
   // },
 
-  {
-    path: '/documentation',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/documentation/index'),
-        name: 'Documentation',
-        meta: { title: 'Documentation', icon: 'documentation', affix: true }
-      }
-    ]
-  },
-  {
-    path: '/guide', // 教程
-    component: Layout,
-    redirect: '/guide/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/guide/index'),
-        name: 'Guide',
-        meta: { title: 'Guide', icon: 'guide', noCache: true }
-      }
-    ]
-  },
+  // {
+  //   path: '/documentation',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/documentation/index'),
+  //       name: 'Documentation',
+  //       meta: { title: 'Documentation', icon: 'documentation', affix: true }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/guide', // 教程
+  //   component: Layout,
+  //   redirect: '/guide/index',
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/guide/index'),
+  //       name: 'Guide',
+  //       meta: { title: 'Guide', icon: 'guide', noCache: true }
+  //     }
+  //   ]
+  // },
   {
     path: '/profile', // 个人中心
     component: Layout,
@@ -178,7 +178,46 @@ export const constantRoutes = [
         meta: { title: 'Profile', icon: 'user', noCache: true }
       }
     ]
+  },
+
+  /* 调试用 先放这里 */
+  {
+    path: '/curd', // 个人中心
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        hidden: true,
+        path: '/curd/add/:model/:module?',
+        meta: { 'title': '数据添加', 'icon': 'edit' },
+        props: true,
+        component: require('@/views/curd/edit.vue').default
+      },
+      {
+        hidden: true,
+        path: '/curd/edit/:model/:id?',
+        meta: { 'title': '数据添加', 'icon': 'edit' },
+        props: true,
+        component: require('@/views/curd/edit.vue').default
+      }
+    ]
+  },
+
+  {
+    hidden: true,
+    path: '/dialog/edit/:model/:id?',
+    meta: { dialog: true, title: '编辑', width: 'w800' },
+    component: require('@/views/dialog/CommonForm.vue').default,
+    props: true
+  },
+  {
+    hidden: true,
+    path: '/dialog/add/:model/:id?',
+    meta: { dialog: true, title: '编辑', width: 'w800' },
+    component: require('@/views/dialog/CommonForm.vue').default,
+    props: true
   }
+
 ]
 
 /**

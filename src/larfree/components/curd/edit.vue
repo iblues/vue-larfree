@@ -26,7 +26,6 @@ export default {
     },
     model: {
       type: String,
-      default: 'common.user',
       required: true
     },
     module: {

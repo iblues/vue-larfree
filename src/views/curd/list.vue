@@ -1,7 +1,7 @@
 <template>
   <div class="app-container" style="background: rgba(240,240,245,.5)">
     <ui-plane>
-      <lar-list />
+      <lar-list :model="model" />
     </ui-plane>
   </div>
 </template>
@@ -19,11 +19,13 @@ export default {
   data() {
     return {
       listLoading: true,
-      schemas: []
+      schemas: [],
+      model: ''
     }
   },
   created() {
-    this.fetchData('common.user')
+    this.model = this.$route.params.model
+    this.fetchData(this.model)
   },
   methods: {
     fetchData(model) {

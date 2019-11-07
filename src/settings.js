@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Vue Element Admin',
+  title: '四川省自然资源资产基础账户数字化平台',
 
   /**
    * @type {boolean} true | false
@@ -23,7 +23,7 @@ module.exports = {
    * @type {boolean} true | false
    * @description Whether show the logo in sidebar
    */
-  sidebarLogo: true,
+  sidebarLogo: false,
 
   /**
    * @type {string | array} 'production' | ['production', 'development']

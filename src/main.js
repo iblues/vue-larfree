@@ -72,7 +72,29 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
-console.log(router);
+
+import 'viewerjs/dist/viewer.css'
+import Viewer from 'v-viewer'
+Vue.use(Viewer, {
+  defaultOptions: {
+    'zIndex': 3000,
+    'inline': false,
+    'button': false,
+    'navbar': false,
+    'title': false,
+    'toolbar': false,
+    'tooltip': false,
+    'movable': false,
+    'zoomable': false,
+    'rotatable': false,
+    'scalable': false,
+    'transition': true,
+    'fullscreen': true,
+    'keyboard': true,
+    'url': 'data-source'
+  }
+})
+
 new Vue({
   el: '#app',
   router,
