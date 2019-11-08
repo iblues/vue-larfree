@@ -147,20 +147,16 @@ export default {
 
       http.then((response) => {
         this.loading = false
-        if (response.data.status === 1) {
-          this.$message.success(response.msg)
-          this.formData = response.data
-          this.$store.commit('refreshEvents', this.model)
-          this.$store.commit('refreshDialog')
-          this.$emit('back')
-        } else {
-          this.errors = response.data
-          this.$message.error(response.data.msg)
-          this.$larfree.goToTop()
-        }
+        this.$message.success(response.msg || '操作成功')
+        this.formData = response.data
+        this.$store.commit('refreshEvents', this.model)
+        this.$store.commit('refreshDialog')
+        this.$emit('back')
       }).catch((error) => {
+        console.log(error, '保存/添加请求')
         this.loading = false
-        this.$message.error(error.response.msg)
+        this.$message.error(error.response.msg || '请求失败')
+        this.$larfree.goToTop()
         return true
       })
       //            this.$debug.log(this.formData,'test');
