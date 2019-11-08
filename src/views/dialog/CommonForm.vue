@@ -1,7 +1,7 @@
 <template>
 
   <div class="main">
-    <lar-form :id="id" :model="model" @back="back" />
+    <lar-edit :id="id" :model="model" @back="back" />
     <!--<router-link :to="`/dialog/edit/express.order/`+id">-->
     <!--<span class="modify-info">-->
     <!--修改-->
@@ -10,9 +10,10 @@
   </div>
 </template>
 <script>
-
+import LarEdit from '@/larfree/components/curd/edit'
 export default {
   name: 'CommonForm',
+  components: { LarEdit },
   props: {
     params: {
       type: Object,

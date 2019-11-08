@@ -70,17 +70,18 @@ export default {
         data.dialog.title = data.title
       }
     },
-    dialogConfirmClose: function(done) {
+    dialogConfirmClose: function(index) {
       if (this.dialogConfirmCancel) {
         this.$confirm('是否放弃编辑内容？')
           .then(() => {
-            this.$router.go(-1)
-            done()
+            // this.$router.go(-1)
+            // done()
+            alert(index)
+            this.dialogs[index]['visible'] = false
           })
           .catch(() => {})
       } else {
-        this.$router.go(-1)
-        done()
+        this.dialogs[index]['visible'] = false
       }
     }
 

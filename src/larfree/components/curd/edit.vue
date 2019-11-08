@@ -22,7 +22,7 @@ export default {
   props: {
     id: {
       type: [String, Number],
-      default: 0
+      default: null
     },
     model: {
       type: String,
@@ -30,7 +30,7 @@ export default {
     },
     module: {
       type: String,
-      default: 'base.edit'
+      default: 'base'
     }
   },
   data() {
@@ -81,14 +81,14 @@ export default {
         this.mode = 'edit'
       }
 
-      larSchemas(model, module, `?mode=${this.mode}`).then((response) => {
+      larSchemas(model, module + '.' + this.mode, '').then((response) => {
         this.Schemas = response.data
         if (this.mode === 'edit') {
           // 编辑模式,需先读取数据
           this.readApi = this.$larfree.replaceParm(response.data.config.readApi, this)
           this.getData()
         } else {
-          // this.getData();
+          this.getData()// add模式 也需要初始化变量用
           this.readApi = ''
           // 添加模式 直接加载完成
           this.loading = false
@@ -107,7 +107,7 @@ export default {
       // 根据配置 初始化添加的数据结构
       if (this.mode === 'add') {
         const Schemas = {}
-        for (var key in this.Schemas['fields']) {
+        for (const key in this.Schemas['fields']) {
           const name = this.Schemas['fields'][key]['key']
           Schemas[name] = ''
         }
@@ -138,6 +138,7 @@ export default {
       this.$debug.log(this.formData, 'submit', this)
       let http
       // 添加是post, 编辑是put
+      console.log(this.formData)
       if (this.mode === 'add') {
         http = this.$http.post(this.api, this.formData)
       } else {
