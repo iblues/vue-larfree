@@ -29,6 +29,7 @@
         :api="api"
         :btn="btns"
         :show-search="true"
+        @change="getData"
       />
     </div>
 

@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">后台管理系统</h3>
       </div>
 
       <el-form-item prop="username">
@@ -49,17 +49,17 @@
 
       <div style="position:relative">
         <div class="tips">
-          <span>Username : admin</span>
-          <span>Password : any</span>
+          <!--<span>Username : admin</span>-->
+          <!--<span>Password : any</span>-->
         </div>
         <div class="tips">
-          <span style="margin-right:18px;">Username : editor</span>
-          <span>Password : any</span>
+          <!--<span style="margin-right:18px;">Username : editor</span>-->
+          <!--<span>Password : any</span>-->
         </div>
 
-        <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
-          Or connect with
-        </el-button>
+        <!--<el-button class="thirdparty-button" type="primary" @click="showDialog=true">-->
+          <!--Or connect with-->
+        <!--</el-button>-->
       </div>
     </el-form>
 
@@ -97,8 +97,8 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: '18008010521',
+        password: '123'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],

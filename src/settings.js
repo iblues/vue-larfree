@@ -1,5 +1,5 @@
 module.exports = {
-  title: '四川省自然资源资产基础账户数字化平台',
+  title: '后台管理系统',
 
   /**
    * @type {boolean} true | false
