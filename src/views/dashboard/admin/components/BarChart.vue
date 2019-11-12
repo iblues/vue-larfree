@@ -63,7 +63,7 @@ export default {
         },
         xAxis: [{
           type: 'category',
-          data: ['2013', '2014', '2015', '2016', '2017', '2018', '2019'],
+          data: ['2019-05', '2019-06', '2019-07', '2019-08', '2019-09', '2019-10', '2019-11'],
           axisTick: {
             alignWithLabel: true
           }
@@ -75,21 +75,28 @@ export default {
           }
         }],
         series: [{
-          name: '耕地',
+          name: '访问量',
           type: 'bar',
           stack: 'vistors',
           barWidth: '60%',
           data: [79, 52, 200, 334, 390, 330, 220],
           animationDuration
         }, {
-          name: '牧地',
+          name: '赞数量',
           type: 'bar',
           stack: 'vistors',
           barWidth: '60%',
           data: [80, 52, 200, 334, 390, 330, 220],
           animationDuration
         }, {
-          name: '宅基地',
+          name: '分享数',
+          type: 'bar',
+          stack: 'vistors',
+          barWidth: '60%',
+          data: [30, 52, 200, 334, 390, 330, 220],
+          animationDuration
+        }, {
+          name: '评论数',
           type: 'bar',
           stack: 'vistors',
           barWidth: '60%',

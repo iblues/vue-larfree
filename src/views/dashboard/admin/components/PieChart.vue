@@ -52,7 +52,7 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['自然林', '自然商业林', '人工林', '人工商业林', '其他']
+          data: ['分类1', '分类2', '分类3', '分类4', '分类5']
         },
         series: [
           {
@@ -62,11 +62,11 @@ export default {
             radius: [15, 95],
             center: ['50%', '38%'],
             data: [
-              { value: 320, name: '自然林' },
-              { value: 240, name: '自然商业林' },
-              { value: 149, name: '人工林' },
-              { value: 100, name: '人工商业林' },
-              { value: 59, name: '其他' }
+              { value: 320, name: '分类1' },
+              { value: 240, name: '分类2' },
+              { value: 149, name: '分类3' },
+              { value: 100, name: '分类4' },
+              { value: 59, name: '分类5' }
             ],
             animationEasing: 'cubicInOut',
             animationDuration: 2600

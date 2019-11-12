@@ -64,7 +64,7 @@ export default {
     setOptions({ expectedData, actualData } = {}) {
       this.chart.setOption({
         xAxis: {
-          data: ['2013', '2014', '2015', '2016', '2017', '2018', '2019'],
+          data: ['2019-05', '2019-06', '2019-07', '2019-08', '2019-09', '2019-10', '2019-11'],
           boundaryGap: false,
           axisTick: {
             show: false
@@ -90,10 +90,10 @@ export default {
           }
         },
         legend: {
-          data: ['指标1', '指标2']
+          data: ['用户数', '作品量']
         },
         series: [{
-          name: '指标1', itemStyle: {
+          name: '用户数', itemStyle: {
             normal: {
               color: '#FF005A',
               lineStyle: {
@@ -109,7 +109,7 @@ export default {
           animationEasing: 'cubicInOut'
         },
         {
-          name: '指标2',
+          name: '作品量',
           smooth: true,
           type: 'line',
           itemStyle: {
