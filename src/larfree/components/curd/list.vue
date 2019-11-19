@@ -291,7 +291,7 @@ export default {
     },
 
     search() {
-      this.getData();
+      this.getData()
     }
 
   }

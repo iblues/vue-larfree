@@ -1,6 +1,6 @@
 <template>
   <div class="ui-plane">
-    <div class="title">
+    <div v-if="title" - class="title">
       {{ title }}
     </div>
     <div class="body">
@@ -16,7 +16,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: '模块名'
+      default: ''
     }
   }
 }
@@ -33,6 +33,7 @@ export default {
     .body{
         padding: 15px;
     }
+    margin-bottom: 10px;
 }
 
 </style>
