@@ -19,6 +19,10 @@ import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
 
+/* 自定义组件*/
+import larFieldTapeRecord from './larfree/components/field/Taperecord'
+Vue.component(larFieldTapeRecord.name, larFieldTapeRecord)
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

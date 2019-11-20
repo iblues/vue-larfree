@@ -26,17 +26,23 @@
       </el-col>
     </el-row>
 
-    <!--<el-row :gutter="8">-->
-    <!--<el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">-->
-    <!--<transaction-table />-->
-    <!--</el-col>-->
-    <!--<el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">-->
-    <!--<todo-list />-->
-    <!--</el-col>-->
-    <!--<el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">-->
-    <!--<box-card />-->
-    <!--</el-col>-->
-    <!--</el-row>-->
+    <el-row :gutter="20">
+      <el-col :xs="{span: 12}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 8}" :xl="{span: 8}" style="margin-bottom:30px;">
+        <ui-plane>播放排行榜
+          <ranking-list ranking="likes" />
+        </ui-plane>
+      </el-col>
+      <el-col :xs="{span: 12}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 8}" :xl="{span: 8}" style="margin-bottom:30px;">
+        <ui-plane>点赞排行榜
+          <ranking-list ranking="playings" />
+        </ui-plane>
+      </el-col>
+      <el-col :xs="{span: 12}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 8}" :xl="{span: 8}" style="margin-bottom:30px;">
+        <ui-plane>分享排行榜
+          <ranking-list ranking="sharing" />
+        </ui-plane>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -47,9 +53,11 @@ import LineChart from './components/LineChart'
 import RaddarChart from './components/RaddarChart'
 import PieChart from './components/PieChart'
 import BarChart from './components/BarChart'
-// import TransactionTable from './components/TransactionTable'
+import TransactionTable from './components/TransactionTable'
 import TodoList from './components/TodoList'
 import BoxCard from './components/BoxCard'
+import RankingList from '@/parrot/rankingList'
+import UiPlane from '@/components/Ui/Plane'
 
 const lineChartData = {
   newVisitis: {
@@ -73,13 +81,15 @@ const lineChartData = {
 export default {
   name: 'DashboardAdmin',
   components: {
+    UiPlane,
+    RankingList,
     GithubCorner,
     PanelGroup,
     LineChart,
     RaddarChart,
     PieChart,
     BarChart,
-    // TransactionTable,
+    TransactionTable,
     TodoList,
     BoxCard
   },

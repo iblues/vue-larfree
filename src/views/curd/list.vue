@@ -1,18 +1,18 @@
 <template>
   <div class="app-container" style="background: rgba(240,240,245,.5)">
-    <ui-plane>
+      <!--<el-row :gutter="10">-->
+        <!--<el-col :span="12">-->
+          <!--<ui-plane>-->
+          <!--<LarChartSimpleLine model="test.test" />-->
+          <!--</ui-plane>-->
+        <!--</el-col>-->
+        <!--<el-col :span="12">-->
+          <!--<ui-plane>-->
+          <!--<LarChartSimpleLine model="test.test" />-->
+          <!--</ui-plane>-->
+        <!--</el-col>-->
+      <!--</el-row>-->
 
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <LarChartSimpleLine model="test.test" />
-        </el-col>
-        <el-col :span="12">
-          <LarChartSimpleLine model="test.test" />
-        </el-col>
-
-      </el-row>
-
-    </ui-plane>
     <ui-plane>
       <lar-list :model="model" />
     </ui-plane>
