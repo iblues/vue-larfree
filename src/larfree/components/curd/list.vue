@@ -29,6 +29,7 @@
         :api="api"
         :btn="btns"
         :show-search="true"
+        @changeSort="changeSort"
         @change="getData"
       />
     </div>
@@ -68,6 +69,8 @@ import { larSchemas, larData } from '@/api/larfree-curd'
 import larSearch from '@/larfree/components/curd/search'
 import larDialog from '@/larfree/components/dialog'
 import { mapGetters } from 'vuex'
+
+import Vue from 'vue'
 import router from '@/router'
 
 /**
@@ -162,7 +165,6 @@ export default {
     searchQuery() {
       // this.zeroing = true
       const data = this.getPipe(this.pipeName)
-      console.log(this.$larfree.getSearchQuery(data), 'searchQuery')
       return this.$larfree.getSearchQuery(data)
     }
     // searchSchemas: function() {
@@ -259,6 +261,10 @@ export default {
           console.log('table.vue', error)
           this.$message.error('Table模块请求数据错误')
         })
+    },
+
+    changeSort(sort) {
+      Vue.set(this.apiQuery, '@sort', sort)
     },
 
     /**

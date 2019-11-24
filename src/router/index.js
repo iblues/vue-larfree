@@ -114,31 +114,20 @@ export const constantRoutes = [
   // },
 
   // // 案例
-  // {
-  //   path: '/',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       id: 3,
-  //       url: '/curd/common.user/test/test',
-  //       path: '/curd/:model/:actn?/:query?/',
-  //       meta: { title: '用户管理2', icon: 'dashboard', affix: true },
-  //       component: require('@/views/curd/list.vue').default
-  //     },
-  //     {
-  //       path: '/curd/common.user/',
-  //       component: Layout,
-  //       children: [
-  //         {
-  //           url: '/curd/common.user/test/test2',
-  //           path: '/curd/:model/:actn?/:query?/',
-  //           meta: { title: '用户管理', icon: 'dashboard', affix: true },
-  //           component: require('@/views/curd/list.vue').default
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // },
+  {
+    path: '/',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        id: 3,
+        url: '/curd/test.test',
+        path: '/curd/:model/:actn?/:query?/',
+        meta: { title: '测试用', icon: 'dashboard', affix: true },
+        component: require('@/views/curd/list.vue').default
+      }
+    ]
+  },
 
   // {
   //   path: '/documentation',
@@ -215,6 +204,13 @@ export const constantRoutes = [
     path: '/dialog/add/:model/:id?',
     meta: { dialog: true, title: '编辑', width: 'w800' },
     component: require('@/views/dialog/CommonForm.vue').default,
+    props: true
+  },
+  {
+    hidden: true,
+    path: '/dialog/import/:model/:api',
+    meta: { dialog: true, title: '导入', width: 'w600' },
+    component: require('@/views/dialog/import.vue').default,
     props: true
   }
 

@@ -109,7 +109,9 @@ export default {
         const Schemas = {}
         for (const key in this.Schemas['fields']) {
           const name = this.Schemas['fields'][key]['key']
-          Schemas[name] = ''
+          if (this.Schemas['fields'][key]['default']) {
+            Schemas[name] = this.Schemas['fields'][key]['default']
+          }
         }
         this.formData = Schemas
         this.loading = false
