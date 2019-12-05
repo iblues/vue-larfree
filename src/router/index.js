@@ -113,22 +113,6 @@ export const constantRoutes = [
   //   ]
   // },
 
-  // // 案例
-  {
-    path: '/',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        id: 3,
-        url: '/curd/test.test',
-        path: '/curd/:model/:actn?/:query?/',
-        meta: { title: '测试用', icon: 'dashboard', affix: true },
-        component: require('@/views/curd/list.vue').default
-      }
-    ]
-  },
-
   // {
   //   path: '/documentation',
   //   component: Layout,
@@ -191,6 +175,23 @@ export const constantRoutes = [
       }
     ]
   },
+  // 案例
+  {
+    path: '/',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        id: 3,
+        url: '/curd/test.test',
+        path: '/curd/:model/:actn?/:query?/',
+        meta: { title: '测试用', icon: 'dashboard', affix: true },
+        component: require('@/views/curd/list.vue').default
+      }
+    ]
+  },
+
+  // 调试用end
 
   {
     hidden: true,
