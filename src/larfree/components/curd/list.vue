@@ -291,9 +291,31 @@ export default {
        * @param button
        */
     handelButton(button) {
-      if (button.url) {
+      if (button.function) {
+        this[button.function](button)
+      } else if (button.url) {
         this.$router.push(button.url)
       }
+    },
+
+    /**
+     * 导出excel文件
+     * @param button
+     */
+    export(button) {
+      this.$http.get(button.url, { 'responseType': 'blob' }).then((res) => {
+        console.log(res)
+        const blob = new Blob([res])
+        const fileName = button.fileName || '导出明细.xlsx'
+        // 通过 URL.createObjectURL(Blob对象), 可以把 Blob对象 转换成一个链接地址,该地址可以直接用在某些 DOM 的 src 或者 href 上
+        const link = document.createElement('a') // 创建a标签
+        link.href = window.URL.createObjectURL(blob) // 创建下载的链接
+        link.download = fileName // 文件名
+        link.click() // 点击下载
+        window.URL.revokeObjectURL(link.href)
+        // window.URL.revokeObjectUR()下载链接)释放blob对象
+        link.remove() // 将a标签移除
+      })
     },
 
     search() {

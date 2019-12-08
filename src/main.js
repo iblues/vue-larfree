@@ -55,6 +55,13 @@ Vue.config.productionTip = false
 // 增加弹窗拦截器,配合larDialog使用
 import NProgress from 'nprogress' // progress bar
 router.beforeEach((to, from, next) => {
+  console.log(to, 'router')
+
+  // 路径中带http://的 又没有转义. 就直接location跳过去
+  if (to.path.indexOf('http://') > 0 || to.path.indexOf('https://') > 0) {
+    location.href = (to.path.substring(to.path.indexOf('http://')))
+  }
+
   if (to.path.indexOf('dialog') > 0) {
     const id = 'dialog' + Math.floor(Math.random() * 1000000000000000)
     Vue.component(id, to.matched[0].components.default)
