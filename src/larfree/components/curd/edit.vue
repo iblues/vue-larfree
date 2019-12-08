@@ -151,8 +151,8 @@ export default {
         this.loading = false
         this.$message.success(response.msg || '操作成功')
         this.formData = response.data
-        this.$store.commit('refreshEvents', this.model)
-        this.$store.commit('refreshDialog')
+        this.$store.commit('larfree/refreshEvents', this.model)
+        this.$store.commit('larfree/refreshDialog')
         this.$emit('back')
       }).catch((error) => {
         console.log(error, '保存/添加请求')
