@@ -22,6 +22,8 @@ import * as filters from './filters' // global filters
 /* 自定义组件*/
 import larFieldTapeRecord from './larfree/components/field/Taperecord'
 Vue.component(larFieldTapeRecord.name, larFieldTapeRecord)
+import larFieldUserDetail from './larfree/components/field/UserDetail'
+Vue.component(larFieldUserDetail.name, larFieldUserDetail)
 
 /**
  * If you don't want to use mock-server

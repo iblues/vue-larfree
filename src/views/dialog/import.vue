@@ -1,8 +1,6 @@
 <template>
   <div style="text-align: center">
     <lar-field-file v-model="name" style="margin: auto" tip="请上传xlsx文件,不要超过8mg" @uploaded="success" />
-    {{ url }}
-    {{ api }}
     <el-button @click="submit()">导入</el-button>
   </div>
 </template>
@@ -40,8 +38,9 @@ export default {
   },
   methods: {
     submit() {
-      this.$http.post(123).then(() => {
-
+      this.$http.post(this.api, { file: this.url }).then((res) => {
+        this.$emit('closeDialog')
+        this.$store.commit('larfree/refreshEvents', this.model)
       })
     },
     success(file) {
