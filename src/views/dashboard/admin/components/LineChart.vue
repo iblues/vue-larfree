@@ -90,7 +90,7 @@ export default {
           }
         },
         legend: {
-          data: ['用户数', '作品量']
+          data: ['用户数', '使用量']
         },
         series: [{
           name: '用户数', itemStyle: {
@@ -109,7 +109,7 @@ export default {
           animationEasing: 'cubicInOut'
         },
         {
-          name: '作品量',
+          name: '使用量',
           smooth: true,
           type: 'line',
           itemStyle: {

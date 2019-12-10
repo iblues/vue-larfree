@@ -153,43 +153,43 @@ export const constantRoutes = [
     ]
   },
 
-  /* 调试用 先放这里 */
-  {
-    path: '/curd', // 个人中心
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        hidden: true,
-        path: '/curd/add/:model/:module?',
-        meta: { 'title': '数据添加', 'icon': 'edit' },
-        props: true,
-        component: require('@/views/curd/edit.vue').default
-      },
-      {
-        hidden: true,
-        path: '/curd/edit/:model/:id?',
-        meta: { 'title': '数据添加', 'icon': 'edit' },
-        props: true,
-        component: require('@/views/curd/edit.vue').default
-      }
-    ]
-  },
+  // /* 调试用 先放这里 */
+  // {
+  //   path: '/curd', // 个人中心
+  //   component: Layout,
+  //   hidden: true,
+  //   children: [
+  //     {
+  //       hidden: true,
+  //       path: '/curd/add/:model/:module?',
+  //       meta: { 'title': '数据添加', 'icon': 'edit' },
+  //       props: true,
+  //       component: require('@/views/curd/edit.vue').default
+  //     },
+  //     {
+  //       hidden: true,
+  //       path: '/curd/edit/:model/:id?',
+  //       meta: { 'title': '数据添加', 'icon': 'edit' },
+  //       props: true,
+  //       component: require('@/views/curd/edit.vue').default
+  //     }
+  //   ]
+  // },
   // 案例
-  {
-    path: '/',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        id: 3,
-        url: '/curd/test.test',
-        path: '/curd/:model/:actn?/:query?/',
-        meta: { title: '测试用', icon: 'dashboard', affix: true },
-        component: require('@/views/curd/list.vue').default
-      }
-    ]
-  },
+  // {
+  //   path: '/',
+  //   component: Layout,
+  //   hidden: true,
+  //   children: [
+  //     {
+  //       id: 3,
+  //       url: '/curd/test.test',
+  //       path: '/curd/:model/:actn?/:query?/',
+  //       meta: { title: '测试用', icon: 'dashboard', affix: true },
+  //       component: require('@/views/curd/list.vue').default
+  //     }
+  //   ]
+  // },
 
   // 调试用end
 
