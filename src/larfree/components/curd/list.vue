@@ -218,7 +218,7 @@ export default {
           // 确定请求api
           this.api = response.data.config.api
           this.btns = response.data.config.button
-          console.log(this.Schemas)
+          console.log('Schemas', this.Schemas)
           this.tableData = []
         })
         .catch((error) => {
@@ -239,7 +239,7 @@ export default {
       if (this.zeroing) {
         this.pageInfo.current_page = 1
       }
-      console.log(this.fullApi, 'api')
+      console.log('fullApi', this.fullApi)
       if (!this.fullApi) {
         return false
       }

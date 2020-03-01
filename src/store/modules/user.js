@@ -64,6 +64,10 @@ const actions = {
           data.roles = roles
           // reject('getInfo: roles must be a non-null array!')
         }
+
+        // larfree先强制设置角色为admin
+        roles = ['admin']
+
         commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)

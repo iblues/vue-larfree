@@ -67,7 +67,7 @@ function rebuildRouters(asyncRoutes, adminNav, root) {
         }
 
         // 如果是多级菜单.递归
-        console.log(nav.children, 'children')
+        // console.log(nav.children, 'children')
         if (nav.children) {
           console.log(nav.children)
           tmpRouter['children'] = rebuildRouters(asyncRoutes, nav.children, false)
@@ -122,13 +122,13 @@ const actions = {
         let accessedRoutes
         // todo 需要重组整个路由
         accessedRoutes = rebuildRouters(asyncRoutes, adminNav.data, true)
-        console.log(accessedRoutes, 'last')
+        // console.log(accessedRoutes, 'last')
         if (roles.includes('admin')) {
           accessedRoutes = accessedRoutes || []
         } else {
           accessedRoutes = filterAsyncRoutes(accessedRoutes, roles)
         }
-        console.log('应该在accessRoutes前面', accessedRoutes)
+        // console.log('应该在accessRoutes前面', accessedRoutes)
         commit('SET_ROUTES', accessedRoutes)
         resolve(accessedRoutes)
       }).catch((err) => {

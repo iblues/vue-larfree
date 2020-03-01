@@ -6,7 +6,7 @@ import {
 
 const cachios = require('cachios')
 
-console.log(process.env.VUE_APP_HOST)
+// console.log(process.env.VUE_APP_HOST)
 const Axios = axios.create({
   baseURL: process.env.VUE_APP_HOST,
   timeout: 40000,

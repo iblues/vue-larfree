@@ -37,7 +37,7 @@ import { mockXHR } from '../mock'
 if (process.env.NODE_ENV === 'production') {
   mockXHR()
 }
-console.log(process.env.VUE_APP_BASE_API, 'host2')
+// console.log(process.env.VUE_APP_BASE_API, 'host2')
 // larfree需要变更
 // import larfree from 'vue-larfree-core'
 import larfree from '../../vue-larfree-core/src/index.js'
@@ -57,7 +57,7 @@ Vue.config.productionTip = false
 // 增加弹窗拦截器,配合larDialog使用
 import NProgress from 'nprogress' // progress bar
 router.beforeEach((to, from, next) => {
-  console.log(to, 'router')
+  // console.log(to, 'router')
 
   // 路径中带http://的 又没有转义. 就直接location跳过去
   if (to.path.indexOf('http://') > 0 || to.path.indexOf('https://') > 0) {

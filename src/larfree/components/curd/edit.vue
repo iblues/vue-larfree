@@ -120,7 +120,7 @@ export default {
           this.loading = false
           if (response.status === 1) {
             this.$emit('loaded')
-            this.$debug.log(response.data, this.api, this)
+            // this.$debug.log(response.data, this.api, this)
             this.formData = response.data
           } else {
             this.$message.error('数据错误')
@@ -137,7 +137,7 @@ export default {
     onSubmit() {
       this.$emit('loading')
       this.loading = true
-      this.$debug.log(this.formData, 'submit', this)
+      // this.$debug.log(this.formData, 'submit', this)
       let http
       // 添加是post, 编辑是put
       console.log(this.formData)
