@@ -152,6 +152,18 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/panel',
+    component: Layout,
+    children: [
+      {
+        path: '/panel/:id',
+        component: () => import('@/views/panel'),
+        name: '面板',
+        meta: { title: '面板', icon: 'bug' }
+      }
+    ]
+  },
 
   /* 调试用 先放这里 */
   {
@@ -175,24 +187,8 @@ export const constantRoutes = [
       }
     ]
   },
-  // 案例
-  {
-    path: '/',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        id: 3,
-        url: '/curd/test.test',
-        path: '/curd/:model/:actn?/:query?/',
-        meta: { title: '测试用', icon: 'dashboard', affix: true },
-        component: require('@/views/curd/list.vue').default
-      }
-    ]
-  },
-
   // 调试用end
-
+  // 弹窗
   {
     hidden: true,
     path: '/dialog/edit/:model/:id?',
@@ -461,26 +457,26 @@ export const asyncRoutes = [
   //     }
   //   ]
   // },
-   // {
+  // {
   //   path: '/pdf/download',
   //   component: () => import('@/views/pdf/download'),
   //   hidden: true
   // },
-
-   {
-    path: '/theme',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/theme/index'),
-        name: 'Theme',
-        meta: { title: 'Theme', icon: 'theme' }
-      }
-    ]
-  },
-
-   // {
+  //
+  //  {
+  //   path: '/theme',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/theme/index'),
+  //       name: 'Theme',
+  //       meta: { title: 'Theme', icon: 'theme' }
+  //     }
+  //   ]
+  // },
+  //
+  // {
   //   path: '/clipboard',
   //   component: Layout,
   //   children: [
