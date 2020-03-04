@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import { larSchemas } from '@/api/larfree-curd'
 import larList from '@/larfree/components/curd/list'
 import UiPlane from '@/components/Ui/Plane'
 export default {
@@ -31,23 +30,11 @@ export default {
   },
   data() {
     return {
-      listLoading: true,
-      schemas: [],
       model: ''
     }
   },
   created() {
     this.model = this.$route.params.model
-    this.fetchData(this.model)
-  },
-  methods: {
-    fetchData(model) {
-      this.listLoading = true
-      larSchemas(model).then(response => {
-        this.schemas = response.data
-        this.listLoading = false
-      })
-    }
   }
 }
 </script>
