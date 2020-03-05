@@ -1,77 +1,35 @@
 <template>
-  <span>
-    <grid-layout
-      :layout.sync="layout"
-      :col-num="12"
-      :row-height="30"
-      :is-draggable="true"
-      :is-resizable="true"
-      :is-mirrored="false"
-      :vertical-compact="true"
-      :margin="[10, 10]"
-      :use-css-transforms="true"
-    >
-
-      <grid-item
-        v-for="item in layout"
-        :key="item.i"
-        :x="item.x"
-        :y="item.y"
-
-        :w="item.w||1"
-        :h="item.h||1"
-        :i="item.i"
-      >
-        <ui-plane>
-          <span @click="delElement(item.i)">删除</span>
-          <lar-list v-if="item.i==100" model="user.admin" />
-        </ui-plane>
-      </grid-item>
-
-    </grid-layout>
-
-    <drag-ui-add-element @addElement="addElement" />
-
+  <span style="margin: 10px">
+    <el-button v-if="edit" @click="edit=false">
+      关闭编辑
+    </el-button>
+    <el-button v-else @click="edit=true">
+      开启编辑
+    </el-button>
+    <drag-ui-row :layout="layout" :edit="edit" @layout="(val)=>{update(val)}" />
   </span>
 </template>
 
 <script>
-import VueGridLayout from 'vue-grid-layout'
-import LarList from '@/larfree/components/curd/list'
-import UiPlane from '@/components/Ui/Plane'
-import DragUiAddElement from '@/components/DragUi/addElement'
+import DragUiRow from '@/larfree/components/dragUi/Row'
 export default {
   name: 'Index',
-  components: {
-    DragUiAddElement,
-    UiPlane,
-    LarList,
-    GridLayout: VueGridLayout.GridLayout,
-    GridItem: VueGridLayout.GridItem
-  },
+  components: { DragUiRow },
   data() {
     return {
-      layout: [
-        { 'x': 0, 'y': 0, 'w': 2, 'h': 2, 'i': '0' },
-        { 'x': 0, 'y': 0, 'w': 2, 'h': 2, 'i': '1' }
-      ]
-
-    }
-  },
-  watch: {
-    layout: {
-      handler(val) {
-        this.saveLayout('test', val)
-      },
-      deep: true
+      layout: [],
+      edit: true
     }
   },
   created() {
-    this.layout = this.loadLayout('test') || this.layout
+    this.layout = this.loadLayout('test')
   },
   methods: {
+    update(val) {
+      this.layout = val
+      this.saveLayout('test', val)
+    },
     saveLayout(name, data) {
-      console.log(data)
       localStorage.setItem('layout-' + name, JSON.stringify(data))
     },
     loadLayout(name) {
@@ -79,26 +37,10 @@ export default {
       if (json) {
         return JSON.parse(json)
       } else {
-        return false
+        return []
       }
-    },
-    addElement(data) {
-      const grid = this.createGrid(data.type)
-      // 向末尾插入一个
-      if (data.position === -1) {
-        this.layout.push(grid)
-      }
-    },
-
-    createGrid() {
-      return { 'x': 0, 'y': 0, 'w': 2, 'h': 6, 'i': int(Math.random() * 100000000) }
-    },
-
-    delElement(key) {
-      this.layout = this.layout.filter((val) => {
-        return val.i !== key
-      })
     }
+
   }
 }
 </script>
