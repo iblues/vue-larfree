@@ -1,66 +1,75 @@
 <template>
+
   <span class="lar-list">
 
-    <!--顶部功能区域-->
-    <div class="filter-container">
-      <!--搜索的结果 是通过vuex直接传递给lar-table的 然后也会 提交事件上报-->
-      <lar-search :model="model" :schemas="schemas['search']" :adv-schemas="schemas['advSearch']">
-        <!--定制按钮区域-->
-        <template v-slot:btn>
-          <span class="divide">|</span>
-          <el-button plain icon="el-icon-refresh" size="medium" type="primary" @click="search()">刷新</el-button>
-          <!--<el-button icon="el-icon-upload2" size="medium" @click="search()">导出当页</el-button>-->
-          <el-button v-for="btn in btns" :key="btn.html" type="primary" :icon="btn.icon" @click="handelButton(btn)">
-            {{ btn.html }}
-          </el-button>
+    <!--拖拽ui用的. 需要继承-->
+    <template v-if="_action==='setting'">
+      <drag-ui-setting-from setting="_setting" v-on="$listeners" schemas="_settingSchemas" />
+    </template>
 
-        </template>
+    <template v-else>
+      <!--顶部功能区域-->
+      <div class="filter-container">
+        <!--搜索的结果 是通过vuex直接传递给lar-table的 然后也会 提交事件上报-->
+        <lar-search :model="model" :schemas="schemas['search']" :adv-schemas="schemas['advSearch']">
+          <!--定制按钮区域-->
+          <template v-slot:btn>
+            <span class="divide">|</span>
+            <el-button plain icon="el-icon-refresh" size="medium" type="primary" @click="search()">刷新</el-button>
+            <!--<el-button icon="el-icon-upload2" size="medium" @click="search()">导出当页</el-button>-->
+            <el-button v-for="btn in btns" :key="btn.html" type="primary" :icon="btn.icon" @click="handelButton(btn)">
+              {{ btn.html }}
+            </el-button>
 
-      </lar-search>
-    </div>
+          </template>
 
-    <!--表格控件-->
-    <div>
-      <lar-table
-        v-loading="loading"
-        :model="model"
-        :schemas="schemas"
-        :data="tableData"
-        :api="api"
-        :btn="btns"
-        :show-search="true"
-        @changeSort="changeSort"
-        @change="getData"
-      />
-    </div>
+        </lar-search>
+      </div>
 
-    <!--底部控件-->
-    <div class="block" style="text-align: right;padding-bottom: 20px;margin-top: 20px">
-      <span style="float: left">
-        <el-dropdown :hide-on-click="false">
-          <el-button size="mini" class="el-dropdown-link">
-            显示<i class="el-icon-arrow-down el-icon--right" />
-          </el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item v-for="field in schemas['fields']" :key="field.key"> <el-checkbox v-model="field['show']">{{ field.name }}</el-checkbox></el-dropdown-item>
+      <!--表格控件-->
+      <div>
+        <lar-table
+          v-loading="loading"
+          :model="model"
+          :schemas="schemas"
+          :data="tableData"
+          :api="api"
+          :btn="btns"
+          :show-search="true"
+          @changeSort="changeSort"
+          @change="getData"
+        />
+      </div>
+
+      <!--底部控件-->
+      <div class="block" style="text-align: right;padding-bottom: 20px;margin-top: 20px">
+        <span style="float: left">
+          <el-dropdown :hide-on-click="false">
+            <el-button size="mini" class="el-dropdown-link">
+              显示<i class="el-icon-arrow-down el-icon--right" />
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-for="field in schemas['fields']" :key="field.key"> <el-checkbox v-model="field['show']">{{ field.name }}</el-checkbox></el-dropdown-item>
             <!--<el-dropdown-item disabled> <el-checkbox v-model="checked">备选项</el-checkbox>双皮奶</el-dropdown-item>-->
             <!--<el-dropdown-item divided> <el-checkbox v-model="checked">备选项</el-checkbox>蚵仔煎</el-dropdown-item>-->
-          </el-dropdown-menu>
-        </el-dropdown>
-      </span>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </span>
 
-      <el-pagination
-        background
-        :current-page="pageInfo.current_page"
-        :page-sizes="[10, 20, 40, 60, 80, 100, 200]"
-        :page-size="pageInfo.per_page"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="pageInfo.total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
-    </div>
-    <lar-dialog />
+        <el-pagination
+          background
+          :current-page="pageInfo.current_page"
+          :page-sizes="[10, 20, 40, 60, 80, 100, 200]"
+          :page-size="pageInfo.per_page"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="pageInfo.total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </div>
+      <lar-dialog />
+
+    </template>
   </span>
 </template>
 
@@ -71,7 +80,8 @@ import larDialog from '@/larfree/components/dialog'
 import { mapGetters } from 'vuex'
 
 import Vue from 'vue'
-import router from '@/router'
+import setting from '@/larfree/components/dragUi/setting'
+import DragUiSettingFrom from '@/larfree/components/dragUi/SettingFrom'
 
 /**
    * 整合表格,搜索,翻页组件
@@ -79,7 +89,8 @@ import router from '@/router'
    */
 export default {
   name: 'LarList',
-  components: { larSearch, larDialog },
+  components: { DragUiSettingFrom, larSearch, larDialog },
+  extends: setting,
   props: {
     model: {
       type: String,

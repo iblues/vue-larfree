@@ -2,10 +2,10 @@
   <span>
     <span class="add-button" @click.stop="openSelect">+</span>
     <el-dialog append-to-body title="选择要添加的元素" :visible.sync="dialogVisible">
-      <el-button @click.stop="addElement('grid')">增加布局元素</el-button>
+      <el-button @click.stop="addElement('drag-ui-row')">增加布局元素</el-button>
       <el-button @click.stop="addElement('lar-list')">增加编辑列表(lar-list)</el-button>
-      <el-button @click.stop="addElement('lar-chart')">增加图标统计(lar-chart)</el-button>
-      <el-button @click.stop="addElement('lar-tree')">增加树状表格(lar-tree)</el-button>
+      <el-button @click.stop="addElement('lar-chart-simple-line')">简单统计(lar-chart)</el-button>
+      <el-button @click.stop="addElement('lar-chart-line')">复杂统计(lar-chart)</el-button>
     </el-dialog>
   </span>
 </template>

@@ -31,9 +31,13 @@
           <drag-ui-row :layout="item.layout" :edit="edit" @layout="val =>updateLayout(val,key)" />
 
           <template v-if="edit">
-            <span style="margin-left: 20px">{{ item.type }}</span>
+            <span style="padding: 10px">
+              <span>{{ item.type }}</span>
+              <component :is="item.type" v-bind="{'model':'common.user','_action':'setting'}" />
+            </span>
           </template>
           <template v-else>
+            <component :is="item.type" v-bind="{'model':'common.user','_action':'setting'}" />
           </template>
         </div>
 
@@ -49,10 +53,12 @@
 <script>
 import VueGridLayout from 'vue-grid-layout'
 import DragUiAddElement from './AddElement'
+import LarList from '@/larfree/components/curd/list'
 
 export default {
   name: 'DragUiRow',
   components: {
+    LarList,
     DragUiAddElement,
     GridLayout: VueGridLayout.GridLayout,
     GridItem: VueGridLayout.GridItem
@@ -159,7 +165,8 @@ export default {
     z-index: 9999;
     position: relative;
   }
-  .plane{
+
+  .plane {
     /*height: auto !important;*/
   }
 </style>
