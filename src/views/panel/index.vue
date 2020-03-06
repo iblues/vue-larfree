@@ -6,7 +6,9 @@
     <el-button v-else @click="edit=true">
       开启编辑
     </el-button>
-    <drag-ui-row :layout="layout" :edit="edit" @layout="(val)=>{update(val)}" />
+    <div class="app-container" style="background: rgba(240,240,245,.5);min-height: 400vh">
+      <drag-ui-row :layout="layout" :edit="edit" @layout="(val)=>{update(val)}" />
+    </div>
   </span>
 </template>
 

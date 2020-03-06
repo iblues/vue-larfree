@@ -1,15 +1,16 @@
 <template>
   <span>
     <grid-layout
+      v-if="layout.length>0"
       :class="edit||'plane'"
       :layout.sync="layout"
-      :col-num="12"
-      :row-height="30"
+      :col-num="24"
+      :row-height="5"
       :is-draggable="edit"
       :is-resizable="edit"
       :is-mirrored="false"
       :vertical-compact="true"
-      :margin="[0, 0]"
+      :margin="margin"
       :responsive="responsive"
       :use-css-transforms="true"
     >
@@ -25,31 +26,39 @@
       >
         <div>
           <span class="action-row">
+            <drag-ui-add-element v-if="edit" @addElement="val=>addElement(item,key,val)" />
             <span v-if="edit" class="del" @click="delElement(item.i)">x</span>
           </span>
-          <drag-ui-row :layout="item.layout" :edit="edit" @layout="val =>updateLayout(val,key)" />
 
-          <template v-if="edit">
-            <span style="padding: 10px">
-              <span v-if="item.type!=='drag-ui-row' ">{{ item.type }}</span>
-              <component
-                :is="item.type"
-                :_ui-param="item.component_param"
-                _action="setting"
-                @submit="val=>saveSetting(item,key,val)"
-              />
-            </span>
+          <!--内嵌元素-->
+          <template v-if="scopeElemet(item.type)">
+            <component
+              :is="item.type"
+              :_ui-param="item.component_param"
+              :_action="edit?'setting':'running'"
+              @submit="val=>saveSetting(item,key,val)"
+            >
+              <drag-ui-row class="ui-plane" :layout="item.layout" :edit="edit" @layout="val =>updateLayout(val,key)" />
+            </component>
           </template>
+
           <template v-else>
-            <component :is="item.type" v-bind="item.component_param || []" />
+            <!--              卡片元素-->
+<!--            {{item.type}}-->
+            <drag-ui-row :layout="item.layout" :edit="edit" @layout="val =>updateLayout(val,key)" />
+            <component
+              :is="item.type"
+              :_ui-param="item.component_param"
+              :_action="edit?'setting':'running'"
+              @submit="val=>saveSetting(item,key,val)"
+            />
           </template>
+
         </div>
 
       </grid-item>
 
     </grid-layout>
-
-    <drag-ui-add-element v-if="edit" @addElement="addElement" />
 
   </span>
 </template>
@@ -85,6 +94,16 @@ export default {
       responsive: false
     }
   },
+
+  computed: {
+    margin() {
+      if (this.edit) {
+        return [10, 10]
+      } else {
+        return [0, 0]
+      }
+    }
+  },
   watch: {
     layout: {
       handler(layout) {
@@ -99,14 +118,14 @@ export default {
       deep: true
     }
   },
-
   methods: {
     updateLayout(data, key) {
       this.layout[key].layout = data
     },
-    addElement(data) {
+    addElement(item, key, data) {
       const grid = this.createGrid(data.type, data.position)
-      this.layout.push(grid)
+      console.log('push', this.layout[key])
+      this.layout[key].layout.push(grid)
     },
 
     /**
@@ -122,12 +141,19 @@ export default {
       return {
         'x': 0,
         'y': 999,
-        'w': 2,
-        'h': 6,
+        'w': 24,
+        'h': 4,
         'i': Math.round(Math.random() * 100000000),
         'layout': [],
         'type': type
       }
+    },
+    /**
+     *  判断是不是布局元素
+     **/
+    scopeElemet(type) {
+      const element = ['ui-plane']
+      return element.includes(type)
     },
 
     /**
@@ -167,8 +193,6 @@ export default {
     border: #cccccc dashed 1px;
     overflow: auto;
 
-    margin: 0;
-    padding: 0;
   }
 
   .vue-grid-item .action-row {
@@ -183,9 +207,13 @@ export default {
     z-index: 9999;
     position: relative;
   }
+  .vue-grid-layout.plane{
+    /*height: 0 !important;*/
+  }
 
   .plane {
-    border: none;
+    border-color: rgba(0,0,0,0);
+    padding: 0;
     overflow-x: hidden;
     /*height: auto !important;*/
   }

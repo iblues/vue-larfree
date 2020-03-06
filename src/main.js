@@ -88,7 +88,9 @@ router.beforeEach((to, from, next) => {
 
 // 拖拽化用
 import DragUiSettingFrom from '@/larfree/components/dragUi/SettingFrom'
-Vue.component(DragUiSettingFrom.name,DragUiSettingFrom);
+Vue.component(DragUiSettingFrom.name, DragUiSettingFrom)
+import UiPlane from '@/components/Ui/Plane'
+Vue.component(UiPlane.name, UiPlane)
 
 import 'viewerjs/dist/viewer.css'
 import Viewer from 'v-viewer'

@@ -28,7 +28,7 @@ export default {
   computed: {
     doneSchemas() {
       if (typeof this.schemas === 'string') {
-        return JSON.parse(this.schemas)
+        return JSON.parse(this.schemas.replace(/'/g, '"'))
       } else {
         return this.schemas
       }
