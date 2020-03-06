@@ -1,10 +1,14 @@
 <template>
 
   <span class="lar-list">
-
     <!--拖拽ui用的. 需要继承-->
     <template v-if="_action==='setting'">
-      <drag-ui-setting-from setting="_setting" v-on="$listeners" schemas="_settingSchemas" />
+      <drag-ui-setting-from
+        setting="_setting"
+        :value="_uiParam"
+        schemas='{"fields":{"model":{"name":"模块名","type":"text","tip":"例如:common.user"},"mode":{"name":"模式","type":"select","option":{"100":"全部","50":"仅展示,无增删改查","20":"仅展示,无排序翻页"},"tip":"无搜索,编辑,删除等"}}}'
+        v-on="$listeners"
+      />
     </template>
 
     <template v-else>
@@ -81,7 +85,6 @@ import { mapGetters } from 'vuex'
 
 import Vue from 'vue'
 import setting from '@/larfree/components/dragUi/setting'
-import DragUiSettingFrom from '@/larfree/components/dragUi/SettingFrom'
 
 /**
    * 整合表格,搜索,翻页组件
@@ -89,7 +92,7 @@ import DragUiSettingFrom from '@/larfree/components/dragUi/SettingFrom'
    */
 export default {
   name: 'LarList',
-  components: { DragUiSettingFrom, larSearch, larDialog },
+  components: { larSearch, larDialog },
   extends: setting,
   props: {
     model: {

@@ -11,6 +11,12 @@ export default {
       default: function() {
         return {}
       }
+    },
+    _uiParam: {
+      type: Object,
+      default: function() {
+        return {}
+      }
     }
   },
 

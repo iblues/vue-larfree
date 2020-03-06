@@ -1,6 +1,6 @@
 <template>
   <span>
-    <lar-form v-model="value" :schemas="schemas" />
+    <lar-form :value="value" :schemas="doneSchemas" @submit="save" v-on="$listeners" />
   </span>
 </template>
 
@@ -13,18 +13,31 @@ export default {
       default: function() {
         return {}
       }
+    },
+    schemas: {
+      type: String || Object,
+      default: function() {
+        return {}
+      }
     }
   },
   data() {
     return {
-      'schemas': {
-        'fields':
-            {
-              'model': {
-                'name': '模块名',
-                'type': 'text'
-              }
-            }
+    }
+  },
+  computed: {
+    doneSchemas() {
+      if (typeof this.schemas === 'string') {
+        return JSON.parse(this.schemas)
+      } else {
+        return this.schemas
+      }
+    }
+  },
+  methods: {
+    save(data) {
+      if (this._action === 'setting') {
+        this.$emit('submit', data)
       }
     }
   }

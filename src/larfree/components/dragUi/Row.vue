@@ -1,6 +1,5 @@
 <template>
   <span>
-
     <grid-layout
       :class="edit||'plane'"
       :layout.sync="layout"
@@ -10,7 +9,7 @@
       :is-resizable="edit"
       :is-mirrored="false"
       :vertical-compact="true"
-      :margin="[10, 10]"
+      :margin="[0, 0]"
       :responsive="responsive"
       :use-css-transforms="true"
     >
@@ -32,12 +31,17 @@
 
           <template v-if="edit">
             <span style="padding: 10px">
-              <span>{{ item.type }}</span>
-              <component :is="item.type" v-bind="{'model':'common.user','_action':'setting'}" />
+              <span v-if="item.type!=='drag-ui-row' ">{{ item.type }}</span>
+              <component
+                :is="item.type"
+                :_ui-param="item.component_param"
+                _action="setting"
+                @submit="val=>saveSetting(item,key,val)"
+              />
             </span>
           </template>
           <template v-else>
-            <component :is="item.type" v-bind="{'model':'common.user','_action':'setting'}" />
+            <component :is="item.type" v-bind="item.component_param || []" />
           </template>
         </div>
 
@@ -142,6 +146,17 @@ export default {
       }).catch(() => {
 
       })
+    },
+
+    /**
+       * 保存卡片中设置的内容
+       * @param item
+       * @param key
+       * @param settingData
+       */
+    saveSetting(item, key, settingData) {
+      console.log('settingData', settingData)
+      this.tmpLayout[key]['component_param'] = settingData
     }
   }
 }
@@ -150,7 +165,10 @@ export default {
 <style scoped>
   .vue-grid-item {
     border: #cccccc dashed 1px;
-    overflow-x: auto;
+    overflow: auto;
+
+    margin: 0;
+    padding: 0;
   }
 
   .vue-grid-item .action-row {
@@ -167,6 +185,8 @@ export default {
   }
 
   .plane {
+    border: none;
+    overflow-x: hidden;
     /*height: auto !important;*/
   }
 </style>

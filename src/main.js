@@ -86,6 +86,10 @@ router.beforeEach((to, from, next) => {
   }
 })
 
+// 拖拽化用
+import DragUiSettingFrom from '@/larfree/components/dragUi/SettingFrom'
+Vue.component(DragUiSettingFrom.name,DragUiSettingFrom);
+
 import 'viewerjs/dist/viewer.css'
 import Viewer from 'v-viewer'
 Vue.use(Viewer, {
