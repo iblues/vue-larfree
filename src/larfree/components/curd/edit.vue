@@ -116,7 +116,7 @@ export default {
         this.formData = Schemas
         this.loading = false
       } else {
-        larData(this.readApi).then((response) => {
+        this.$api(this.readApi).then((response) => {
           this.loading = false
           if (response.status === 1) {
             this.$emit('loaded')
@@ -142,9 +142,9 @@ export default {
       // 添加是post, 编辑是put
       console.log(this.formData)
       if (this.mode === 'add') {
-        http = this.$http.post(this.api, this.formData)
+        http = this.$api(this.api, this.formData)
       } else {
-        http = this.$http.put(this.api, this.formData)
+        http = this.$api(this.api, this.formData)
       }
 
       http.then((response) => {

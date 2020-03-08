@@ -65,13 +65,12 @@
 </template>
 
 <script>
-import { larSchemas, larData } from '@/api/larfree-curd'
+import { larSchemas } from '@/api/larfree-curd'
 import larSearch from '@/larfree/components/curd/search'
 import larDialog from '@/larfree/components/dialog'
 import { mapGetters } from 'vuex'
 
 import Vue from 'vue'
-import router from '@/router'
 
 /**
    * 整合表格,搜索,翻页组件
@@ -243,7 +242,7 @@ export default {
       if (!this.fullApi) {
         return false
       }
-      larData(this.fullApi)
+      this.$api(this.fullApi)
         .then((response) => {
           this.loading = false
           this.tableData = response.data
@@ -303,7 +302,7 @@ export default {
      * @param button
      */
     export(button) {
-      this.$http.get(button.url, { 'responseType': 'blob' }).then((res) => {
+      this.$api(button.url, { 'responseType': 'blob' }).then((res) => {
         console.log(res)
         const blob = new Blob([res])
         const fileName = button.fileName || '导出明细.xlsx'
