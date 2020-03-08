@@ -1,6 +1,10 @@
 <template>
   <span>
-    <lar-form :value="value" :schemas="doneSchemas" @submit="save" v-on="$listeners" />
+    <lar-form :value="value" :schemas="doneSchemas" @submit="save" v-on="$listeners">
+      <template v-slot:bottom>
+        <span></span>
+      </template>
+    </lar-form>
   </span>
 </template>
 

@@ -26,7 +26,7 @@
       >
         <div>
           <span class="action-row">
-            <drag-ui-add-element v-if="edit" @addElement="val=>addElement(item,key,val)" />
+            <drag-ui-add-element v-if="edit" :component-list="componentList" @addElement="val=>addElement(item,key,val)" />
             <span v-if="edit" class="del" @click="delElement(item.i)">x</span>
           </span>
 
@@ -44,7 +44,7 @@
 
           <template v-else>
             <!--              卡片元素-->
-<!--            {{item.type}}-->
+            <!--            {{item.type}}-->
             <drag-ui-row :layout="item.layout" :edit="edit" @layout="val =>updateLayout(val,key)" />
             <component
               :is="item.type"
@@ -67,7 +67,7 @@
 import VueGridLayout from 'vue-grid-layout'
 import DragUiAddElement from './AddElement'
 import LarList from '@/larfree/components/curd/list'
-
+import './AutoRegister'
 export default {
   name: 'DragUiRow',
   components: {
@@ -91,7 +91,13 @@ export default {
   data() {
     return {
       tmpLayout: [],
-      responsive: false
+      responsive: false,
+      componentList: {
+        'drag-ui-element-lar-list': { 'name': '列表元素(LarList)' },
+        'drag-ui-element-row': { 'name': '布局元素(Row)' },
+        'drag-ui-element-ui-plane': { 'name': 'UI面板(UiPlane)' },
+        'drag-ui-element-lar-chart-simple-line': { 'name': '布局元素(LarChartSimpleLine)' }
+      }
     }
   },
 

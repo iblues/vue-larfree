@@ -1,11 +1,9 @@
-<template>
-
-</template>
+<template />
 
 <script>
-  export default {
-    name: "LarChartSimple"
-  }
+export default {
+  name: 'DragUiElementLarChartSimple'
+}
 </script>
 
 <style scoped>

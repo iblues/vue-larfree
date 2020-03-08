@@ -2,11 +2,9 @@
   <span>
     <span class="add-button" @click.stop="openSelect">+</span>
     <el-dialog append-to-body title="选择要添加的元素" :visible.sync="dialogVisible">
-      <el-button @click.stop="addElement('drag-ui-row')">增加布局元素</el-button>
-      <el-button @click.stop="addElement('lar-list')">增加编辑列表(lar-list)</el-button>
-      <el-button @click.stop="addElement('lar-chart-simple-line')">简单统计(lar-chart)</el-button>
-      <el-button @click.stop="addElement('lar-chart-line')">复杂统计(lar-chart)</el-button>
-      <el-button @click.stop="addElement('ui-plane')">增加面板(ui-plane)</el-button>
+      <template v-for="(component,key) in componentList">
+        <el-button :key="key" @click.stop="addElement(component,key)">{{ component.name }}</el-button>
+      </template>
     </el-dialog>
   </span>
 </template>
@@ -14,6 +12,14 @@
 <script>
 export default {
   name: 'DragUiAddElement',
+  props: {
+    componentList: {
+      type: Object,
+      default: function() {
+        return []
+      }
+    }
+  },
   data: function() {
     return {
       dialogVisible: false
@@ -23,7 +29,7 @@ export default {
     openSelect() {
       this.dialogVisible = true
     },
-    addElement(type) {
+    addElement(component, type) {
       this.$emit('addElement', { 'type': type, 'position': -1 })
       this.dialogVisible = false
     }

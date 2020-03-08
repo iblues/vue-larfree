@@ -1,16 +1,5 @@
 <template>
   <span class="lar-list">
-    <!--拖拽ui用的. 需要继承-->
-    <template v-if="_action==='setting'">
-      <drag-ui-setting-from
-        setting="_setting"
-        :value="_uiParam"
-        schemas="{'fields':{'model':{'name':'模块名','type':'text','tip':'例如:common.user'},'mode':{'name':'模式','type':'select','option':{'100':'全部','50':'仅展示,无增删改查','20':'仅展示,无排序翻页'},'tip':'无搜索,编辑,删除等'}}}"
-        v-on="$listeners"
-      />
-    </template>
-
-    <template v-else>
       <!--顶部功能区域-->
       <div class="filter-container">
         <!--搜索的结果 是通过vuex直接传递给lar-table的 然后也会 提交事件上报-->
@@ -71,8 +60,6 @@
         />
       </div>
       <lar-dialog />
-
-    </template>
   </span>
 </template>
 
@@ -83,7 +70,6 @@ import larDialog from '@/larfree/components/dialog'
 import { mapGetters } from 'vuex'
 
 import Vue from 'vue'
-import setting from '@/larfree/components/dragUi/setting'
 
 /**
    * 整合表格,搜索,翻页组件
@@ -92,7 +78,6 @@ import setting from '@/larfree/components/dragUi/setting'
 export default {
   name: 'LarList',
   components: { larSearch, larDialog },
-  extends: setting,
   props: {
     model: {
       type: String,

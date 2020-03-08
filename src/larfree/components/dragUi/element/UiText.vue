@@ -1,11 +1,9 @@
-<template>
-
-</template>
+<template />
 
 <script>
-  export default {
-    name: "UiText"
-  }
+export default {
+  name: 'DragUiElementUiText'
+}
 </script>
 
 <style scoped>
