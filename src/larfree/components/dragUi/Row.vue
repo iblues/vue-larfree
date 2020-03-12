@@ -68,9 +68,11 @@ import VueGridLayout from 'vue-grid-layout'
 import DragUiAddElement from './AddElement'
 import LarList from '@/larfree/components/curd/list'
 import './AutoRegister'
+import DragUiElementIframe from "@/larfree/components/dragUi/element/iframe"
 export default {
   name: 'DragUiRow',
   components: {
+    DragUiElementIframe,
     LarList,
     DragUiAddElement,
     GridLayout: VueGridLayout.GridLayout,
@@ -96,7 +98,8 @@ export default {
         'drag-ui-element-lar-list': { 'name': '列表元素(LarList)' },
         'drag-ui-element-row': { 'name': '布局元素(Row)' },
         'drag-ui-element-ui-plane': { 'name': 'UI面板(UiPlane)' },
-        'drag-ui-element-lar-chart-simple-line': { 'name': '布局元素(LarChartSimpleLine)' }
+        'drag-ui-element-component': { 'name': '自定义组件' },
+        'drag-ui-element-iframe': { 'name': 'iframe' }
       }
     }
   },
@@ -194,6 +197,11 @@ export default {
 }
 </script>
 
+<style>
+  .vue-grid-item>div{
+    height: 100% !important;
+  }
+</style>
 <style scoped>
   .vue-grid-item {
     border: #cccccc dashed 1px;

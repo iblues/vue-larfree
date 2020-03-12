@@ -20,7 +20,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: '22'
+      default: ''
     }
   }
 }

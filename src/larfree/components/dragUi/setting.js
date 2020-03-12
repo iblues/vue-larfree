@@ -20,6 +20,7 @@ export default {
     }
   },
 
+  inheritAttrs: false,
   data() {
     return {
       uiSchema: {}

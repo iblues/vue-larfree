@@ -23,8 +23,7 @@ import LarList from '@/larfree/components/curd/list'
 export default {
   name: 'DragUiElementLarList',
   components: { LarList },
-  extends: setting,
-  inheritAttrs: false
+  extends: setting
 }
 </script>
 
