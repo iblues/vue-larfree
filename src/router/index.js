@@ -157,7 +157,7 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: '/panel/:id',
+        path: '/panel/:id/:edit?',
         component: () => import('@/views/panel'),
         name: '面板',
         meta: { title: '面板', icon: 'bug' }
@@ -191,7 +191,7 @@ export const constantRoutes = [
         path: '/curd/:model/:actn?/:query?/',
         meta: { 'title': '数据管理', 'icon': 'edit' },
         component: require('@/views/curd/list.vue').default
-      },
+      }
     ]
   },
   // 调试用end

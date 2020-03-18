@@ -1,6 +1,6 @@
 <template>
   <span>
-    <div style="padding: 10px">
+    <div v-if="model==='edit'" style="padding: 10px">
       拖拽 <el-switch v-model="drag" />   <el-divider direction="vertical" />
       大小 <el-switch v-model="resize" />   <el-divider direction="vertical" />
       设置 <el-switch v-model="edit" />
@@ -28,6 +28,7 @@ export default {
       layout: [],
       edit: false,
       drag: false,
+      model: false,
       resize: false,
       name: 'home',
       api: {
@@ -37,6 +38,12 @@ export default {
     }
   },
   created() {
+    this.name = this.$route.params.id
+    this.model = this.$route.params.edit
+    if (this.model === 'edit') {
+      this.drag = true
+      this.resize = true
+    }
     this.loadLayout()
   },
   methods: {
@@ -56,6 +63,16 @@ export default {
 
       // localStorage.setItem('layout-' + name, JSON.stringify(data))
     },
+    defaultLayout() {
+      this.layout = [{
+        'x': 0,
+        'y': 0,
+        'w': 24,
+        'h': 24,
+        'i': 1,
+        'layout': []
+      }]
+    },
     loadLayout() {
       this.$api(this.api.get + '/' + this.name).then((data) => {
         const json = data.data.layout
@@ -63,15 +80,10 @@ export default {
         if (json.length > 0) {
           this.layout = json
         } else {
-          this.layout = [{
-            'x': 0,
-            'y': 0,
-            'w': 24,
-            'h': 24,
-            'i': 1,
-            'layout': []
-          }]
+          this.defaultLayout()
         }
+      }).catch(() => {
+        this.defaultLayout()
       })
     }
 
