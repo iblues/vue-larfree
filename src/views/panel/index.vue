@@ -38,7 +38,8 @@ export default {
     }
   },
   created() {
-    this.name = this.$route.params.id
+    this.name = this.$route.params.id || 'home'
+
     this.model = this.$route.params.edit
     if (this.model === 'edit') {
       this.drag = true

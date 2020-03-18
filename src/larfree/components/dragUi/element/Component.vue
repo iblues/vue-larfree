@@ -21,10 +21,11 @@
 import setting from '@/larfree/components/dragUi/setting'
 import LarList from '@/larfree/components/curd/list'
 import CardIframe from '@/larfree/components/card/iframe'
+import RankingList from '@/parrot/rankingList'
 
 export default {
   name: 'DragUiElementComponent',
-  components: { CardIframe, LarList },
+  components: { RankingList, CardIframe, LarList },
   extends: setting,
   computed: {
     bind: function() {

@@ -92,10 +92,16 @@ export const constantRoutes = [
     children: [
       {
         path: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/panel'),
         name: 'Dashboard',
         meta: { title: '首页', icon: 'dashboard', affix: true }
       }
+      // {
+      //   path: 'dashboard',
+      //   component: () => import('@/views/dashboard/index'),
+      //   name: 'Dashboard',
+      //   meta: { title: '首页', icon: 'dashboard', affix: true }
+      // }
     ]
   },
 
@@ -155,6 +161,8 @@ export const constantRoutes = [
   {
     path: '/panel',
     component: Layout,
+    uniqueKey: 'curd/table',
+    hidden: true,
     children: [
       {
         path: '/panel/:id/:edit?',

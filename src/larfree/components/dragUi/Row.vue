@@ -71,9 +71,11 @@ import DragUiAddElement from './AddElement'
 import LarList from '@/larfree/components/curd/list'
 import './AutoRegister'
 import DragUiElementIframe from '@/larfree/components/dragUi/element/iframe'
+import RankingList from "@/parrot/rankingList"
 export default {
   name: 'DragUiRow',
   components: {
+    RankingList,
     DragUiElementIframe,
     LarList,
     DragUiAddElement,
