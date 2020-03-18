@@ -1,33 +1,35 @@
 <template>
-  <span>
+  <span class="drag-ui">
     <grid-layout
       v-if="layout.length>0"
-      :class="edit||'plane'"
+      :class="drag || resize ||'plane'"
       :layout.sync="layout"
       :col-num="24"
-      :row-height="5"
-      :is-draggable="edit"
-      :is-resizable="edit"
+      :row-height="4"
+      :is-draggable="drag"
+      :is-resizable="resize"
       :is-mirrored="false"
       :vertical-compact="true"
       :margin="margin"
       :responsive="responsive"
       :use-css-transforms="true"
     >
+      <!--
+     -->
       <grid-item
         v-for="(item,key) in layout"
         :key="key"
-        :class="edit||'plane'"
+        :class="drag|| resize || 'plane'"
         :x="item.x"
         :y="item.y"
-        :w="item.w||1"
-        :h="item.h||1"
+        :w="item.w"
+        :h="item.h"
         :i="item.i"
       >
         <div>
           <span class="action-row">
-            <drag-ui-add-element v-if="edit" :component-list="componentList" @addElement="val=>addElement(item,key,val)" />
-            <span v-if="edit" class="del" @click="delElement(item.i)">x</span>
+            <drag-ui-add-element v-if="drag || resize" class="add-button" :component-list="componentList" @addElement="val=>addElement(item,key,val)" />
+            <span v-if="drag || resize " class="del" @click="delElement(item.i)"><i class="el-icon-close" /></span>
           </span>
 
           <!--内嵌元素-->
@@ -38,14 +40,14 @@
               :_action="edit?'setting':'running'"
               @submit="val=>saveSetting(item,key,val)"
             >
-              <drag-ui-row class="ui-plane" :layout="item.layout" :edit="edit" @layout="val =>updateLayout(val,key)" />
+              <drag-ui-row class="ui-plane" :layout="item.layout" :edit="edit" :drag="drag" :resize="resize" @layout="val =>updateLayout(val,key)" />
             </component>
           </template>
 
           <template v-else>
             <!--              卡片元素-->
             <!--            {{item.type}}-->
-            <drag-ui-row :layout="item.layout" :edit="edit" @layout="val =>updateLayout(val,key)" />
+            <drag-ui-row :layout="item.layout" :edit="edit" :drag="drag" :resize="resize" @layout="val =>updateLayout(val,key)" />
             <component
               :is="item.type"
               :_ui-param="item.component_param"
@@ -68,7 +70,7 @@ import VueGridLayout from 'vue-grid-layout'
 import DragUiAddElement from './AddElement'
 import LarList from '@/larfree/components/curd/list'
 import './AutoRegister'
-import DragUiElementIframe from "@/larfree/components/dragUi/element/iframe"
+import DragUiElementIframe from '@/larfree/components/dragUi/element/iframe'
 export default {
   name: 'DragUiRow',
   components: {
@@ -86,6 +88,14 @@ export default {
       }
     },
     edit: {
+      type: Boolean,
+      default: false
+    },
+    drag: {
+      type: Boolean,
+      default: false
+    },
+    resize: {
       type: Boolean,
       default: false
     }
@@ -106,11 +116,12 @@ export default {
 
   computed: {
     margin() {
-      if (this.edit) {
-        return [10, 10]
-      } else {
-        return [0, 0]
-      }
+      return [10, 10]
+      // if (this.edit || this.drag) {
+      //   return [10, 10]
+      // } else {
+      //   return [0, 0]
+      // }
     }
   },
   watch: {
@@ -134,7 +145,7 @@ export default {
     addElement(item, key, data) {
       const grid = this.createGrid(data.type, data.position)
       console.log('push', this.layout[key])
-      this.layout[key].layout.push(grid)
+      this.tmpLayout[key].layout.push(grid)
     },
 
     /**
@@ -149,9 +160,9 @@ export default {
       }
       return {
         'x': 0,
-        'y': 999,
+        'y': y,
         'w': 24,
-        'h': 4,
+        'h': 8,
         'i': Math.round(Math.random() * 100000000),
         'layout': [],
         'type': type
@@ -161,7 +172,7 @@ export default {
      *  判断是不是布局元素
      **/
     scopeElemet(type) {
-      const element = ['ui-plane']
+      const element = ['drag-ui-element-ui-plane']
       return element.includes(type)
     },
 
@@ -198,7 +209,7 @@ export default {
 </script>
 
 <style>
-  .vue-grid-item>div{
+  .drag-ui .vue-grid-item>div{
     height: 100% !important;
   }
 </style>
@@ -219,16 +230,23 @@ export default {
     text-align: center;
     cursor: pointer;
     z-index: 9999;
-    position: relative;
+    position:absolute;
+    right: 0;
+    top: 0;
   }
   .vue-grid-layout.plane{
     /*height: 0 !important;*/
   }
-
+  .vue-grid-layout{
+    /*padding: 0 !important;*/
+    height: 100% !important;
+  }
   .plane {
     border-color: rgba(0,0,0,0);
-    padding: 0;
-    overflow-x: hidden;
-    /*height: auto !important;*/
+  }
+  .add-button{
+    position: absolute;
+    z-index: 99999;
+    right: 20px;
   }
 </style>

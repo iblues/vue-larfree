@@ -1,6 +1,6 @@
 <template>
   <span>
-    <span class="add-button" @click.stop="openSelect">+</span>
+    <span class="add-button" @click.stop="openSelect"><i class="el-icon-plus"></i></span>
     <el-dialog append-to-body title="选择要添加的元素" :visible.sync="dialogVisible">
       <template v-for="(component,key) in componentList">
         <el-button :key="key" @click.stop="addElement(component,key)">{{ component.name }}</el-button>
@@ -42,7 +42,6 @@ export default {
     cursor: pointer;
     position: relative;
     width: 20px;
-    height: 20px;
     text-align: center;
   }
 </style>
