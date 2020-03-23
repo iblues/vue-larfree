@@ -1,7 +1,7 @@
 <template>
 
   <div class="main">
-    <lar-edit :id="id" :model="model" @back="back" />
+    <lar-edit :id="id" :model="model" :module="module" @back="back" />
     <!--<router-link :to="`/dialog/edit/express.order/`+id">-->
     <!--<span class="modify-info">-->
     <!--修改-->
@@ -27,6 +27,9 @@ export default {
     }
   },
   computed: {
+    module: function(value) {
+      return this.params.module
+    },
     model: function(value) {
       return this.params.model
     },

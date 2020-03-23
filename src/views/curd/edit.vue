@@ -2,7 +2,7 @@
 
   <div class="app-container" style="background: rgba(240,240,245,.5)">
     <ui-plane>
-      <lar-edit :id="id" :model="model" />
+      <lar-edit :id="id" :model="model" :module="module" />
     </ui-plane>
   </div>
 </template>
@@ -17,7 +17,8 @@ export default {
       test: '测试',
       tableTitle: '数据管理',
       id: 0,
-      model: ''
+      model: '',
+      module:'',
     }
   },
   watch: {
@@ -35,6 +36,7 @@ export default {
     getRouterData() {
       this.model = this.$route.params.model
       this.id = this.$route.params.id
+      this.module = this.$route.params.module
     }
   }
 }

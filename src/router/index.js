@@ -189,7 +189,7 @@ export const constantRoutes = [
       },
       {
         hidden: true,
-        path: '/curd/edit/:model/:id?',
+        path: '/curd/edit/:model/:id/:module?',
         meta: { 'title': '数据添加', 'icon': 'edit' },
         props: true,
         component: require('@/views/curd/edit.vue').default
@@ -206,14 +206,14 @@ export const constantRoutes = [
   // 弹窗
   {
     hidden: true,
-    path: '/dialog/edit/:model/:id?',
+    path: '/dialog/edit/:model/:id?/:module?',
     meta: { dialog: true, title: '编辑', width: 'w800' },
     component: require('@/views/dialog/CommonForm.vue').default,
     props: true
   },
   {
     hidden: true,
-    path: '/dialog/add/:model/:id?',
+    path: '/dialog/add/:model/:module?',
     meta: { dialog: true, title: '编辑', width: 'w800' },
     component: require('@/views/dialog/CommonForm.vue').default,
     props: true

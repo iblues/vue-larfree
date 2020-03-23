@@ -217,6 +217,7 @@ export default {
   .vue-grid-item {
     border: #cccccc dashed 1px;
     overflow: auto;
+    padding-bottom: 3px;
 
   }
 

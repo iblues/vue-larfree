@@ -30,7 +30,7 @@ export default {
     },
     module: {
       type: String,
-      default: 'base'
+      default: ''
     }
   },
   data() {
@@ -81,7 +81,10 @@ export default {
         this.mode = 'edit'
       }
 
-      larSchemas(model, module + '.' + this.mode, '').then((response) => {
+      if (module) {
+        module = '.' + module
+      }
+      larSchemas(model, 'base.' + this.mode + module, '').then((response) => {
         this.Schemas = response.data
         if (this.mode === 'edit') {
           // 编辑模式,需先读取数据
