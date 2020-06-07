@@ -257,6 +257,7 @@ export default {
         })
         .catch((error) => {
           console.log('table.vue', error)
+          this.loading=false;
           this.$message.error('Table模块请求数据错误')
         })
     },
