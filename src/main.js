@@ -25,6 +25,8 @@ import larFieldTapeRecord from './larfree/components/field/Taperecord'
 Vue.component(larFieldTapeRecord.name, larFieldTapeRecord)
 import larFieldUserDetail from './larfree/components/field/UserDetail'
 Vue.component(larFieldUserDetail.name, larFieldUserDetail)
+import Episodes from './larfree/components/field/Episodes'
+Vue.component(Episodes.name, Episodes)
 
 /**
  * If you don't want to use mock-server

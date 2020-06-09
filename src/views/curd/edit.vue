@@ -18,7 +18,7 @@ export default {
       tableTitle: '数据管理',
       id: 0,
       model: '',
-      module:'',
+      module: ''
     }
   },
   watch: {
