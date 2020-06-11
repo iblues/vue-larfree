@@ -6,7 +6,6 @@
       <lar-search :model="model" :schemas="schemas['search']" :adv-schemas="schemas['advSearch']">
         <!--定制按钮区域-->
         <template v-slot:btn>
-          <span class="divide">|</span>
           <el-button plain icon="el-icon-refresh" size="medium" type="primary" @click="search()">刷新</el-button>
           <!--<el-button icon="el-icon-upload2" size="medium" @click="search()">导出当页</el-button>-->
           <el-button v-for="btn in btns" :key="btn.html" type="primary" :icon="btn.icon" @click="handelButton(btn)">
@@ -105,6 +104,8 @@ export default {
       isShowCheck: true,
       isShowDrop: true,
       title: '',
+
+      debounceFlag: null,
 
       api: '',
       apiQuery: {}, // ?默认的查询参数
@@ -243,25 +244,29 @@ export default {
       if (!this.fullApi) {
         return false
       }
-      this.$api(this.fullApi)
-        .then((response) => {
-          this.loading = false
-          this.tableData = response.data
-          if (response.meta) {
-            this.pageInfo = response.meta
-          }
+      // 防抖
+      clearTimeout(this.debounceFlag)
+      this.debounceFlag = setTimeout(() => {
+        this.$api(this.fullApi)
+          .then((response) => {
+            this.loading = false
+            this.tableData = response.data
+            if (response.meta) {
+              this.pageInfo = response.meta
+            }
 
-          // 让他全部加载完了才能开始
-          setTimeout(() => {
-            this.canQuickChange = true
-          }, 300)
-          this.zeroing = false
-        })
-        .catch((error) => {
-          console.log('table.vue', error)
-          this.loading = false
-          this.$message.error('Table模块请求数据错误')
-        })
+            // 让他全部加载完了才能开始
+            setTimeout(() => {
+              this.canQuickChange = true
+            }, 300)
+            this.zeroing = false
+          })
+          .catch((error) => {
+            console.log('table.vue', error)
+            this.loading = false
+            this.$message.error('Table模块请求数据错误')
+          })
+      }, 300)
     },
 
     changeSort(sort) {
@@ -321,7 +326,11 @@ export default {
         this.$api(url, putData)
           .then((response) => {
             if (response.status) {
-              this.$message.success(response.msg || '修改成功')
+              this.$message({
+                showClose: true,
+                type: 'success',
+                message: response.msg || '修改成功'
+              })
             }
           })
           .catch((error) => {
