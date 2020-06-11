@@ -30,7 +30,8 @@
         :show-search="true"
         @change-sort="changeSort"
         @change="getData"
-        @quick-change="quickChange"
+        @quick-change="handelQuickChange"
+        @do-api="handelDoApi"
       />
     </div>
 
@@ -299,9 +300,20 @@ export default {
     },
 
     /**
+     * 捕捉各种按钮触发的api操作
+     **/
+    handelDoApi(event) {
+      this.$api(event.api).then(() => {
+        this.getData()// 刷新
+      }).catch(() => {
+        this.$message.error('操作失败')
+      })
+    },
+
+    /**
      * 快捷修改
      **/
-    quickChange(event) {
+    handelQuickChange(event) {
       if (this.canQuickChange) {
         const url = this.$larfree.replaceParm(this.schemas.config.quick_change_api, event.data)
         const putData = {}
