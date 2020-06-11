@@ -38,7 +38,8 @@ export default {
     }
   },
   created() {
-    this.$emit('dialogTitle', '编辑')
+    this.$emit('dialogTitle', '编辑2')
+    this.$emit('dialogLock', true)
   },
   methods: {
     back() {

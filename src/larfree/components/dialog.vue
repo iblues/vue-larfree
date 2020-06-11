@@ -8,7 +8,7 @@
       :title="item.title"
       :visible.sync="!!item && item.visible"
       :append-to-body="false"
-      @closed="closeEnd"
+      :before-close="(done)=>dialogConfirmClose(done,index)"
     >
       <component
         :is="item.id"
@@ -16,7 +16,7 @@
         :dialog="item"
         :params="item.params"
         @dialogTitle="changeDialogTitle"
-        @closeDialog="dialogConfirmClose(index)"
+        @dialogLock="(event)=>dialogLock(event,index)"
       />
     </el-dialog>
   </span>
@@ -29,9 +29,10 @@ export default {
   data() {
     return {
       params: {},
-      dialogConfirmCancel: false,
+      dialogConfirmCancel: [],
       dialogWidth: 0,
-      isPhone: false
+      isPhone: false,
+      lock: false
       // dialogTitle: [],
     }
   },
@@ -58,11 +59,18 @@ export default {
     }
   },
   methods: {
-    dialogChange(visible) {
-      this.$store.commit('dialog', visible)
-    },
+    // dialogChange(visible) {
+    //   console.log(visible)
+    //   this.$store.commit('dialog', visible)
+    // },
     closeEnd() {
 
+    },
+    /**
+     * 锁定弹窗,避免误操作.
+     */
+    dialogLock(event, index) {
+      this.dialogConfirmCancel[index] = event
     },
     changeDialogTitle(data) {
       // this.dialogTitle.push(val);
@@ -70,18 +78,16 @@ export default {
         data.dialog.title = data.title
       }
     },
-    dialogConfirmClose: function(index) {
-      if (this.dialogConfirmCancel) {
+    dialogConfirmClose: function(done, index) {
+      // console.log('close',index);
+      if (this.dialogConfirmCancel[index]) {
         this.$confirm('是否放弃编辑内容？')
           .then(() => {
-            // this.$router.go(-1)
-            // done()
-            alert(index)
-            this.dialogs[index]['visible'] = false
+            done()
           })
           .catch(() => {})
       } else {
-        this.dialogs[index]['visible'] = false
+        done()
       }
     }
 
