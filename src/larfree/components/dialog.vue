@@ -9,6 +9,7 @@
       :visible.sync="!!item && item.visible"
       :append-to-body="false"
       :before-close="(done)=>dialogConfirmClose(done,index)"
+      @closed="closeEnd"
     >
       <component
         :is="item.id"
@@ -17,6 +18,7 @@
         :params="item.params"
         @dialogTitle="changeDialogTitle"
         @dialogLock="(event)=>dialogLock(event,index)"
+        @closeDialog="dialogClose(index)"
       />
     </el-dialog>
   </span>
@@ -78,10 +80,14 @@ export default {
         data.dialog.title = data.title
       }
     },
+    dialogClose(index){
+      this.dialogs[index].visible=0;
+    },
     dialogConfirmClose: function(done, index) {
       // console.log('close',index);
+      console.log(index);
       if (this.dialogConfirmCancel[index]) {
-        this.$confirm('是否放弃编辑内容？')
+        this.$confirm('是否放弃编辑？')
           .then(() => {
             done()
           })
