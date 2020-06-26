@@ -90,18 +90,18 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/dashboard',
     children: [
-      {
-        path: 'dashboard',
-        component: () => import('@/views/panel'),
-        name: 'Dashboard',
-        meta: { title: '首页', icon: 'dashboard', affix: true }
-      }
       // {
       //   path: 'dashboard',
-      //   component: () => import('@/views/dashboard/index'),
+      //   component: () => import('@/views/panel'),
       //   name: 'Dashboard',
       //   meta: { title: '首页', icon: 'dashboard', affix: true }
       // }
+      {
+        path: 'dashboard',
+        component: () => import('@/views/dashboard/index'),
+        name: 'Dashboard',
+        meta: { title: '首页', icon: 'dashboard', affix: true }
+      }
     ]
   },
 
@@ -158,6 +158,8 @@ export const constantRoutes = [
       }
     ]
   },
+
+  // 面板编辑
   {
     path: '/panel',
     component: Layout,
@@ -169,6 +171,33 @@ export const constantRoutes = [
         component: () => import('@/views/panel'),
         name: '面板',
         meta: { title: '面板', icon: 'bug' }
+      }
+    ]
+  },
+  // 蓝图修改
+  {
+    path: '/schemas',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/schemas',
+        component: () => import('@/views/schemas/index'),
+        name: '蓝图',
+        meta: { title: '面板', icon: 'list' }
+      }
+    ]
+  },
+  {
+    path: '/config',
+    component: Layout,
+    // hidden: true,
+    children: [
+      {
+        path: '/config',
+        component: () => import('@/views/config/index'),
+        name: '系统配置',
+        meta: { title: '系统配置', icon: 'list' }
       }
     ]
   },
