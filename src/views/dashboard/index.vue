@@ -1,17 +1,27 @@
 <template>
   <div class="dashboard-container">
-    <component :is="currentRole" />
+    <div class="app-container">
+
+      <h2>欢迎回来</h2>
+      <el-card class="box-card">
+        <div slot="header" class="clearfix">
+          <span>公告通知</span>
+        </div>
+        <div>
+          有什么通知都写这里.
+          所有人都能看到.
+        </div>
+
+      </el-card>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import adminDashboard from './admin'
-import editorDashboard from './editor'
 
 export default {
   name: 'Dashboard',
-  components: { adminDashboard, editorDashboard },
   data() {
     return {
       currentRole: 'adminDashboard'
