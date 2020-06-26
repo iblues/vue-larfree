@@ -6,8 +6,8 @@ const state = {
   schemas: {},
   // history: {},
   upload: {
-    imageHost: process.env.VUE_APP_API_HOST + '/upload/images',
-    fileHost: process.env.VUE_APP_API_HOST + '/upload/files'
+    imageHost: process.env.VUE_APP_BASE_API + '/upload/images',
+    fileHost: process.env.VUE_APP_BASE_API + '/upload/files'
   },
   dialogs: [],
   pipe: {}, // 用来互通筛选条件
