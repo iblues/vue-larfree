@@ -18,6 +18,7 @@
 
 <script>
 import { larSchemas, larData } from '@/api/larfree-curd'
+
 export default {
   props: {
     id: {
@@ -58,7 +59,11 @@ export default {
       this.getData()
     },
     mode: function() {
-      if (this.mode === 'add') { this.$emit('title', '添加') } else { this.$emit('title', '编辑') }
+      if (this.mode === 'add') {
+        this.$emit('title', '添加')
+      } else {
+        this.$emit('title', '编辑')
+      }
     }
   },
 
@@ -124,7 +129,13 @@ export default {
           if (response.status === 1) {
             this.$emit('loaded')
             // this.$debug.log(response.data, this.api, this)
-            this.formData = response.data
+            console.log(response.data.length, '长度')
+            // 这里不应该有数组. 如果是数组基本是空数据. 直接复制空对象
+            if (!Array.prototype.isPrototypeOf(response.data)) {
+              this.formData = response.data
+            } else {
+              this.formData = {}
+            }
           } else {
             this.$message.error('数据错误')
           }
