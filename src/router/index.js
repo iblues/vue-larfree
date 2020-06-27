@@ -189,12 +189,12 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/config',
+    path: '/larfree_config',
     component: Layout,
-    // hidden: true,
+    hidden: true,
     children: [
       {
-        path: '/config',
+        path: '/larfree_config',
         component: () => import('@/views/config/index'),
         name: '系统配置',
         meta: { title: '系统配置', icon: 'list' }
@@ -344,6 +344,12 @@ export const asyncRoutes = [
     path: '/curd/edit/:model/:id?',
     meta: { 'title': '数据添加', 'icon': 'edit' },
     component: require('@/views/curd/edit.vue').default
+  },
+  {
+    path: 'config',
+    component: () => import('@/views/config/index'),
+    name: '系统配置',
+    meta: { title: '系统配置', icon: 'list' }
   },
 
   /** when your routing map is too long, you can split it into small modules **/
