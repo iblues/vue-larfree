@@ -106,6 +106,7 @@ export default {
         this.api = this.$larfree.replaceParm(response.data.config.api, this)
       }).catch((error) => {
         this.$message.error(error.response.data.msg)
+        this.loading = false
         //                    console.log(error);
       })
     },
