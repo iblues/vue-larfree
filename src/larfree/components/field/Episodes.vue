@@ -14,12 +14,16 @@
 
     <h3>编辑排序区域</h3>
 
+    <el-button size="mini" @click.native="selectAll()">全选</el-button> <el-button style="float: right" size="mini" type="danger" round @click="delSelectedAudio()">删除选择</el-button>
     <draggable v-model="items" v-loading="loading" group="people" @start="drag=true" @end="drag=false">
-      <div v-for="(element) in items" :key="element.id" class="ui-div">
-        <span style="width: 34px;display: inline-block;text-align: center">{{ element.collection }}.</span> {{
-          element.title }} ({{ element.time }}秒)
-        <el-button style="float: right" size="mini" type="danger" round @click="delAudio(element.id)">删除</el-button>
-      </div>
+      <el-checkbox-group v-model="selected">
+        <div v-for="(element) in items" :key="element.id" class="ui-div">
+          <el-checkbox :label="element.id">
+            <span style="width: 34px;display: inline-block;text-align: center">{{ element.collection }}.</span> {{ element.title }} ({{ element.time }}秒)
+          </el-checkbox>
+          <el-button style="float: right" size="mini" type="danger" round @click="delAudio(element.id)">删除</el-button>
+        </div>
+      </el-checkbox-group>
     </draggable>
 
   </div>
@@ -38,6 +42,7 @@ export default {
       loading: false,
       visible: false,
       searchModel: 'like',
+      selected: [],
       items: [{
         id: 1,
         title: '测试1',
@@ -64,6 +69,22 @@ export default {
     }
   },
   methods: {
+    delSelectedAudio() {
+      this.selected.forEach((v) => {
+        this.delAudio(v)
+      })
+    },
+    selectAll() {
+      const selected = []
+      this.items.forEach((v) => {
+        selected.push(v.id)
+      })
+      if (selected.length === this.selected.length) {
+        this.selected = []
+      } else {
+        this.selected = selected
+      }
+    },
     delAudio(id) {
       // for (const i in this.items) {
       //   if (this.items[i].id === id) {
