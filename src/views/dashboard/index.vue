@@ -7,10 +7,7 @@
         <div slot="header" class="clearfix">
           <span>公告通知</span>
         </div>
-        <div>
-          有什么通知都写这里.
-          所有人都能看到.
-        </div>
+        <div v-html="content" />
 
       </el-card>
     </div>
@@ -24,7 +21,8 @@ export default {
   name: 'Dashboard',
   data() {
     return {
-      currentRole: 'adminDashboard'
+      currentRole: 'adminDashboard',
+      content: ''
     }
   },
   computed: {
@@ -33,6 +31,10 @@ export default {
     ])
   },
   created() {
+    this.$http.get('/system/config/notice/index').then((res) => {
+      console.log(res.data.index)
+      this.content = res.data.index
+    })
     if (!this.roles.includes('admin')) {
       this.currentRole = 'editorDashboard'
     }
