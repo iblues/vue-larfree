@@ -5,6 +5,7 @@
       drag
       :action="api"
       :on-success="handleSuccess"
+      :on-error="handleError"
       multiple
     >
       <i class="el-icon-upload" />
@@ -120,6 +121,11 @@ export default {
     },
     handleSuccess() {
       this.loadData()
+    },
+    handleError(error) {
+      // message: error.response.data.msg || '请求错误',
+      const err = JSON.parse(error.message)
+      this.$message.error(err.msg)
     }
 
   }
