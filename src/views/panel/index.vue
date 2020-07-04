@@ -76,7 +76,7 @@ export default {
     },
     loadLayout() {
       this.$api(this.api.get + '/' + this.name).then((data) => {
-        const json = data.data.layout
+        const json = data.data[this.name].layout
 
         if (json.length > 0) {
           this.layout = json
