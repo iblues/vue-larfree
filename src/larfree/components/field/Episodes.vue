@@ -16,16 +16,18 @@
     <h3>编辑排序区域</h3>
 
     <el-button size="mini" @click.native="selectAll()">全选</el-button> <el-button style="float: right" size="mini" type="danger" round @click="delSelectedAudio()">删除选择</el-button>
-    <draggable v-model="items" v-loading="loading" group="people" @start="drag=true" @end="drag=false">
-      <el-checkbox-group v-model="selected">
+
+    <el-checkbox-group v-model="selected">
+      <draggable v-model="items" v-loading="loading" group="people" @start="drag=true" @end="drag=false">
         <div v-for="(element) in items" :key="element.id" class="ui-div">
           <el-checkbox :label="element.id">
             <span style="width: 34px;display: inline-block;text-align: center">{{ element.collection }}.</span> {{ element.title }} ({{ element.time }}秒)
           </el-checkbox>
           <el-button style="float: right" size="mini" type="danger" round @click="delAudio(element.id)">删除</el-button>
         </div>
-      </el-checkbox-group>
-    </draggable>
+
+      </draggable>
+    </el-checkbox-group>
 
   </div>
 </template>
@@ -71,8 +73,19 @@ export default {
   },
   methods: {
     delSelectedAudio() {
-      this.selected.forEach((v) => {
-        this.delAudio(v)
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.selected.forEach((id) => {
+          this.$http.delete('/audio/episodes/' + id).then((res) => {
+            this.loadData()
+            this.loading = false
+          }).catch(() => {
+            this.loading = false
+          })
+        })
       })
     },
     selectAll() {
