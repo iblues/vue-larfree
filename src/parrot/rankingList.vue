@@ -1,22 +1,26 @@
 <template>
-  <el-table :data="list" style="width: 100%;padding-top: 15px;">
-    <el-table-column label="作品名" min-width="200">
-      <template slot-scope="scope">
-         ID:{{ scope.row.id }}: 《{{ scope.row.title }}》- <span v-if="scope.row.subject">{{ scope.row.subject.title }}</span>
+  <span>
+    <h4>作品{{ showName }}排行榜</h4>
+    <el-table :data="list" style="width: 100%;">
 
-      </template>
-    </el-table-column>
-    <el-table-column label="作者" max-width="150" align="center">
-      <template v-if="scope.row.user" slot-scope="scope">
-        {{ scope.row.user.name }}
-      </template>
-    </el-table-column>
-    <el-table-column :label="showName" max-width="30" align="center">
-      <template slot-scope="scope">
-        {{scope.row.record}}
-      </template>
-    </el-table-column>
-  </el-table>
+      <el-table-column label="作品名" min-width="200">
+        <template slot-scope="scope">
+          ID:{{ scope.row.id }}: 《{{ scope.row.title }}》- <span v-if="scope.row.subject">{{ scope.row.subject.title }}</span>
+
+        </template>
+      </el-table-column>
+      <el-table-column label="作者" max-width="150" align="center">
+        <template v-if="scope.row.user" slot-scope="scope">
+          {{ scope.row.user.name }}
+        </template>
+      </el-table-column>
+      <el-table-column :label="showName" max-width="30" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.record }}
+        </template>
+      </el-table-column>
+    </el-table>
+  </span>
 </template>
 
 <script>
