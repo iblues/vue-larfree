@@ -104,7 +104,18 @@ export const constantRoutes = [
       }
     ]
   },
-
+  // excel
+  {
+    path: '/hostel/excel/',
+    component: Layout,
+    children: [
+      {
+        path: '/hostel/excel',
+        meta: { title: 'excel', icon: 'dashboard', affix: true },
+        component: require('@/views/hostel/excel.vue').default
+      }
+    ]
+  },
   // // 案例
   // {
   //   path: '/curd/common.user/',
