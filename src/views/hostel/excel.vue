@@ -88,7 +88,7 @@ export default {
   },
   created() {
     this.loading = true;
-    this.$http.get('/log/excel?pageSize=1&type=live').then((data) => {
+    this.$http.get('/log/excel?pageSize=1&action=live').then((data) => {
       this.loading = false
       console.log('json', data.data[0].json)
       this.celldata = data.data[0].json
