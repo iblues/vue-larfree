@@ -1,7 +1,8 @@
 <template>
-  <div v-loading="loading" style="height: 500px">
+  <div style="height: 500px">
 
-    <OnlineExcel v-if="celldata" :cell-data="celldata" :cell-title="cellTitle" @save="saveExcel" />
+    <div v-if="loading" v-loading="loading" style="z-index:9999999999;width: 100%;height: 100%;position: absolute;background: rgba(255,255,255,0.5)" />
+    <OnlineExcel v-if="celldata" :cell-data="celldata" :cell-title="cellTitle" title="宿舍安排" :sub-title="subTitle" @save="saveExcel" />
   </div>
 </template>
 
@@ -86,12 +87,15 @@ export default {
     }
   },
   created() {
+    this.loading = true;
     this.$http.get('/log/excel?pageSize=1').then((data) => {
       this.loading = false
       console.log('json', data.data[0].json)
       this.celldata = data.data[0].json
+      this.subTitle = '最后编辑人:' + data.data[0].admin.name + ' 编辑时间:' + data.data[0].created_at
     })
   },
+
   methods: {
     saveExcel(data) {
       this.loading = true
@@ -105,6 +109,18 @@ export default {
         console.log(rep)
       })
     }
+  },
+  beforeRouteLeave(to, from, next) {
+    // 判断数据是否修改，如果修改按这个执行，没修改，则直接执行离开此页面
+    // 弹窗显示
+    this.$confirm('是否离开页面?', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(() => {
+      next()
+    }).catch(() => {
+    })
   }
 }
 </script>

@@ -1,6 +1,13 @@
 <template>
   <div>
-    <el-button style="float: right;margin-right: 20px;margin-top: 5px" type="primary" @click="saveExcel">保存</el-button>
+
+    <h2 style="margin-top: 10px;line-height: 150%;text-align: left;">
+      <span style="margin-left: 250px">{{ title }}</span>
+      <span style="float:right;margin-right:20px;font-size: 12px">{{ subTitle }}</span>
+
+      <el-button style="float:left;margin-left: 20px;" type="primary" @click="saveExcel">保存文档</el-button>
+      <el-button style="float:left;margin-left: 20px;" @click="exportExcel">导出文档</el-button>
+    </h2>
     <div
       id="luckysheet"
       style="margin:0px;padding:0px;position:absolute;width:100%;left: 0px;top: 100px;bottom:0px;"
@@ -46,7 +53,9 @@ export default {
   props: {
     msg: String,
     cellData: Array,
-    cellTitle: Array
+    cellTitle: Array,
+    title: String,
+    subTitle: String
   },
   data() {
     return {
@@ -134,6 +143,27 @@ export default {
       }
       this.$emit('save', rows)
       console.log('内容', rows)
+    },
+
+    exportExcel() {
+      const data = luckysheet.getAllSheets()[0].data
+
+      const out = XLSX.utils.book_new()
+      const aoa = [[]]
+
+      data.forEach(function(rows, index) {
+        aoa[index] = []
+        for (let column = 0; column < rows.length - 1; column++) {
+          if (!rows[column]) { continue }
+          aoa[index][column] = rows[column].v ? rows[column].v : ''
+        }
+      })
+
+      const ws = XLSX.utils.aoa_to_sheet(aoa)
+      XLSX.utils.book_append_sheet(out, ws, 'sheet1')
+
+      XLSX.writeFile(out, this.title + '.xlsx', {})
+      return true
     },
     uploadExcel(evt) {
       const files = evt.target.files

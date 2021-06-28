@@ -105,29 +105,7 @@ export const constantRoutes = [
     ]
   },
   // excel
-  {
-    path: '/hostel/excel/',
-    component: Layout,
-    children: [
-      {
 
-        path: '/hostel/excel',
-        meta: { title: 'excel', icon: 'dashboard', affix: true },
-        component: require('@/views/hostel/excel.vue').default
-      }
-    ]
-  },
-  {
-    path: '/hostel/excel/',
-    component: Layout,
-    children: [
-      {
-        path: '/hostel/homekeeping',
-        meta: { title: 'excel', icon: 'dashboard', affix: true },
-        component: require('@/views/hostel/homekeeping.vue').default
-      }
-    ]
-  },
   // // 案例
   // {
   //   path: '/curd/common.user/',
@@ -343,6 +321,28 @@ export const asyncRoutes = [
   //   ]
   // },
    **/
+
+  {
+    hidden: false,
+    uniqueKey: 'hostel/live',
+    path: '/hostel/live',
+    meta: { 'title': '内容管理', 'icon': 'edit' },
+    component: require('@/views/hostel/excel.vue').default
+  },
+  {
+    hidden: false,
+    uniqueKey: 'hostel/homekeeping',
+    path: '/hostel/homekeeping',
+    meta: { 'title': '内容管理', 'icon': 'edit' },
+    component: require('@/views/hostel/homekeeping.vue').default
+  },
+  {
+    hidden: false,
+    uniqueKey: 'hostel/bed',
+    path: '/hostel/bed',
+    meta: { 'title': '内容管理', 'icon': 'edit' },
+    component: require('@/views/hostel/bed.vue').default
+  },
   /**  larfree start **/
 
   // 页面类
