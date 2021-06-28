@@ -1,6 +1,7 @@
 <template>
-  <div class="container" style="padding: 10px">
-    <OnlineExcel v-if="celldata" v-loading="loading" :cell-data="celldata" :cell-title="cellTitle" @save="saveExcel" />
+  <div v-loading="loading" style="height: 500px">
+
+    <OnlineExcel v-if="celldata" :cell-data="celldata" :cell-title="cellTitle" @save="saveExcel" />
   </div>
 </template>
 
@@ -12,7 +13,7 @@ export default {
   components: { OnlineExcel },
   data() {
     return {
-      loading: true,
+      loading: false,
       layout: [],
       cellTitle:
         // 公寓	寝室号	床号	姓名	学号	民族	政治面貌	学院	专业	行政班	年级	学制	层次	备注	性别	核费标准
@@ -81,13 +82,14 @@ export default {
             'v': '核费标准'
           }
         ],
-      celldata: []
+      celldata: false
     }
   },
   created() {
     this.$http.get('/log/excel?pageSize=1').then((data) => {
       this.loading = false
-      // this.celldata = data.data[0].json;
+      console.log('json', data.data[0].json)
+      this.celldata = data.data[0].json
     })
   },
   methods: {
@@ -108,5 +110,5 @@ export default {
 </script>
 
 <style>
-#luckysheet_info_detail{display: none !important;}
+/*#luckysheet_info_detail{display: none !important;}*/
 </style>

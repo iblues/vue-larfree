@@ -1,17 +1,10 @@
 <template>
-  <div >
-    <el-button style="float: right;margin-right: 20px" @click="saveExcel">保存</el-button>
+  <div>
+    <el-button style="float: right;margin-right: 20px;margin-top: 5px" type="primary" @click="saveExcel">保存</el-button>
     <div
       id="luckysheet"
-      style="margin:0px;padding:0px;position:absolute;width:100%:height:100%;left: 0px;top: 110px;bottom:0px;"
+      style="margin:0px;padding:0px;position:absolute;width:100%;left: 0px;top: 100px;bottom:0px;"
     />
-
-    <div
-      v-show="isMaskShow"
-      style="position: absolute;z-index: 1000000;left: 0px;top: 50px;bottom: 0px;right: 0px; background: rgba(255, 255, 255, 0.8); text-align: center;font-size: 40px;align-items:center;justify-content: center;display:flex;"
-    >
-      Downloading
-    </div>
 
   </div>
 </template>
@@ -61,21 +54,28 @@ export default {
       isMaskShow: false
     }
   },
+  destroyed() {
+    console.log('关闭excel')
+    window.luckysheet.destroy()
+  },
   mounted() {
     // In some cases, you need to use $nextTick
     // this.$nextTick(() => {
-    const data = this.cellData
+    const data = luckysheet.transToCellData(this.cellData)
+    console.log('excelInit', data)
     for (const index in this.cellTitle) {
       data.push(this.cellTitle[index])
     }
-    this.createExcel(data)
+    setTimeout(() => {
+      this.createExcel(data)
+    }, 500)
     // })
     // });
   },
   methods: {
 
     createExcel(data) {
-      $(() => {
+      this.$nextTick(() => {
         luckysheet.create({
           container: 'luckysheet', // 设定DOM容器的id
           title: 'Excel表头', // 设定表格名称
@@ -90,34 +90,13 @@ export default {
               'order': 0, // 工作表的下标
               'hide': 0, // 是否隐藏
               'row': 36, // 行数
+              'lintOnSave': false,
               'column': 18, // 列数
               'defaultRowHeight': 19, // 自定义行高
               'defaultColWidth': 73, // 自定义列宽
               'celldata': data,
-              // [
-              //   {
-              //     'r': 0, // 行
-              //     'c': 0, // 列
-              //     'v': 1
-              //   },
-              //   {
-              //     'r': 0, // 行
-              //     'c': 1, // 列
-              //     'v': 2
-              //   }
-              // ],
-              'config': {
-                'merge': {}, // 合并单元格
-                'rowlen': {}, // 表格行高
-                'columnlen': {}, // 表格列宽
-                'rowhidden': {}, // 隐藏行
-                'colhidden': {}, // 隐藏列
-                'borderInfo': {}, // 边框
-                'authority': {} // 工作表保护
-
-              },
               'scrollLeft': 0, // 左右滚动条位置
-              'scrollTop': 315, // 上下滚动条位置
+              'scrollTop': 0, // 上下滚动条位置
               'luckysheet_select_save': [], // 选中的区域
               'calcChain': [], // 公式链
               'isPivotTable': false, // 是否数据透视表
@@ -127,7 +106,10 @@ export default {
               'luckysheet_alternateformat_save': [], // 交替颜色
               'luckysheet_alternateformat_save_modelCustom': [], // 自定义交替颜色
               'luckysheet_conditionformat_save': {}, // 条件格式
-              'frozen': {}, // 冻结行列配置
+              'frozen': {
+                type: 'row'
+              },
+              // 冻结行列配置
               'chart': [], // 图表配置
               'zoomRatio': 1, // 缩放比例
               'image': [], // 图片
@@ -135,6 +117,7 @@ export default {
               'dataVerification': {} // 数据验证配置
             }
           ]
+
         })
       })
     },
@@ -144,14 +127,13 @@ export default {
       const data = sheet[0].data
       const rows = new Array()
       for (const index in data) {
-        if (index < 1) { continue }
         const row = data[index]
         if (row[0]) {
           rows.push(row)
         }
       }
-      this.$emit('save',rows);
-      console.log(rows)
+      this.$emit('save', rows)
+      console.log('内容', rows)
     },
     uploadExcel(evt) {
       const files = evt.target.files

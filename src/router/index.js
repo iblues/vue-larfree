@@ -110,9 +110,21 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
+
         path: '/hostel/excel',
         meta: { title: 'excel', icon: 'dashboard', affix: true },
         component: require('@/views/hostel/excel.vue').default
+      }
+    ]
+  },
+  {
+    path: '/hostel/excel/',
+    component: Layout,
+    children: [
+      {
+        path: '/hostel/homekeeping',
+        meta: { title: 'excel', icon: 'dashboard', affix: true },
+        component: require('@/views/hostel/homekeeping.vue').default
       }
     ]
   },
