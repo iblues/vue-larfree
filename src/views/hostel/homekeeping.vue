@@ -59,7 +59,7 @@ export default {
     }
   },
   created() {
-    // this.$http.get('/log/excel?pageSize=1').then((data) => {
+    // this.$http.get('/log/excel?pageSize=1&type=houseKeeping').then((data) => {
     //   this.loading = false
     //   // this.celldata = data.data[0].json;
     // })
@@ -67,7 +67,7 @@ export default {
   methods: {
     saveExcel(data) {
       this.loading = true
-      this.$http.post('/log/excel', { 'json': data, 'action': 'live' }).then((res) => {
+      this.$http.post('/log/excel', { 'json': data, 'action': 'houseKeeping' }).then((res) => {
         const rep = res.data
         this.loading = false
         this.$message({

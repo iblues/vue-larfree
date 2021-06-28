@@ -74,7 +74,7 @@ export default {
     handleNodeClick(data) {
       console.log(data)
     }
-  },
+  }
   // beforeRouteLeave(to, from, next) {
   //   // 判断数据是否修改，如果修改按这个执行，没修改，则直接执行离开此页面
   //   // 弹窗显示

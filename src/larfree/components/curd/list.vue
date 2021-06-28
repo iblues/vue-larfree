@@ -300,7 +300,11 @@ export default {
       if (button.function) {
         this[button.function](button)
       } else if (button.url) {
-        this.$router.push(button.url)
+        if (button.url.substring(0, 4) === 'http') {
+          location.href = button.url
+        } else {
+          this.$router.push(button.url)
+        }
       }
     },
 
