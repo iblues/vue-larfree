@@ -232,6 +232,13 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    hidden: true,
+    path: '/dialog/student/bed/:id?/:module?',
+    meta: { dialog: true, title: '床位历史', width: 'w800' },
+    component: require('@/views/dialog/StudentHistory.vue').default,
+    props: true
+  },
   // 调试用end
   // 弹窗
   {

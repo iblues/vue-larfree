@@ -5,13 +5,27 @@
       <span style="margin-left: 250px">{{ title }}</span>
       <span style="float:right;margin-right:20px;font-size: 12px">{{ subTitle }}</span>
 
-      <el-button style="float:left;margin-left: 20px;" type="primary" @click="saveExcel">保存文档</el-button>
+      <el-button style="float:left;margin-left: 20px;" type="primary" @click="goSave">保存文档</el-button>
       <el-button style="float:left;margin-left: 20px;" @click="exportExcel">导出文档</el-button>
     </h2>
     <div
       id="luckysheet"
       style="margin:0px;padding:0px;position:absolute;width:100%;left: 0px;top: 100px;bottom:0px;"
     />
+
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose"
+    >
+      <span>输入变更备注</span><br /><br />
+      <el-input v-model="comment"></el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
 
   </div>
 </template>
@@ -59,8 +73,10 @@ export default {
   },
   data() {
     return {
+      dialogVisible: false,
       selected: '',
-      isMaskShow: false
+      isMaskShow: false,
+      comment:'',
     }
   },
   destroyed() {
@@ -130,6 +146,9 @@ export default {
         })
       })
     },
+    goSave() {
+      this.dialogVisible = true
+    },
     saveExcel(evt) {
       console.log('保存')
       const sheet = window.luckysheet.getLuckysheetfile()
@@ -143,6 +162,14 @@ export default {
       }
       this.$emit('save', rows)
       console.log('内容', rows)
+    },
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          saveExcel()
+          done()
+        })
+        .catch(_ => {})
     },
 
     exportExcel() {
