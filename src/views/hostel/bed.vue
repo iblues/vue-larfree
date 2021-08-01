@@ -3,82 +3,68 @@
     <el-row>
       <el-col :span="3">
         <el-menu
-          default-active="2"
+          :default-active="initId"
           class="el-menu-vertical-demo"
           style="height: 100vh:min-width:250px"
         >
           <el-submenu index="0">
             <template slot="title">
               <i class="el-icon-location" />
-              <span>成都校区</span>
+              <span>狮子山校区</span>
             </template>
             <template v-for="b in building">
-              <el-menu-item :index="b.id" @click="changeBuilding(b)">{{ b.name }}</el-menu-item>
+              <el-menu-item :key="b.id" :index="b.id+''" @click="changeBuilding(b)">{{ b.name }}</el-menu-item>
             </template>
           </el-submenu>
 
         </el-menu>
       </el-col>
 
-      <el-col :span="21" >
+      <el-col v-loading="loading" :span="21">
 
-        <el-col v-for="r in room" :span="3" style="width: 200px;margin: 10px;text-align: center;" >
-          <el-card @click="showRoom" shadow="hover" style="margin: 5px;min-height: 200px;z">
+        <el-col v-for="r in room" :span="3" style="width: 200px;margin: 10px;text-align: center;">
+          <el-card shadow="hover" style="margin: 5px;min-height: 200px;z">
             <div style="background: rgba(0,0,0,0.15);padding: 2px 5px">{{ r.name }}</div>
-            <div @click="showRoom"  v-for="bed in r['beds']" style="margin: 5px;cursor:pointer;">
-              <div>{{ bed.bed }}:{{ bed.student?bed.student.name:'空' }}</div>
-            </div>
+            <template v-for="bed in r['beds']">
+              <div style="margin: 5px;cursor:pointer;" @click="showStudent(bed)">
+                <div>{{ bed.bed }}:{{ bed.student?bed.student.name:'空' }}</div>
+              </div>
+            </template>
           </el-card>
         </el-col>
 
       </el-col>
 
     </el-row>
-
-    <el-dialog
-      title="床位信息"
-      :visible.sync="dialogVisible"
-      width="30%"
-    >
-      <span>
-        张三&nbsp;&nbsp;&nbsp;&nbsp;男&nbsp;&nbsp;&nbsp;&nbsp;文学院-语言学&nbsp;&nbsp;&nbsp;&nbsp;021级02班
-        <br />   <br />变动历史:
-        <ul class="history">
-          <li>2020-06-21 从重德苑四幢 403-1 更换为 重德苑四幢404-1<br/>  -操作人:李四</li>
-          <li>2020-08-21 从重德苑四幢 403-1 更换为 重德苑四幢404-1<br/>  -操作人:李四</li>
-        </ul>
-
-      </span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-      </span>
-    </el-dialog>
-
+    <lar-dialog />
   </div>
 </template>
 
 <script>
 import OnlineExcel from '@/components/Excel/index'
+import LarDialog from '@/larfree/components/dialog'
 
 export default {
   name: 'Excel',
-  components: { OnlineExcel },
+  components: { LarDialog, OnlineExcel },
   data() {
     return {
       room: {},
       building: {},
-      dialogVisible: false
+      initId: 16,
+      loading: false
     }
   },
   created() {
-    this.getRoom(1)
+    this.getRoom(this.initId)
     this.getBuilding()
   },
   methods: {
-    showRoom() {
-      console.log(11);
-      this.dialogVisible = true
+    showStudent(r) {
+      console.log('查看学生', r)
+      if (r.student_id) {
+        this.$router.push('/dialog/student/bed/' + r.student_id)
+      }
     },
     getBuilding() {
       this.$http.get('/hostel/building').then((res) => {
@@ -87,10 +73,12 @@ export default {
       })
     },
     getRoom(id) {
+      this.loading = true
       this.$http.get('/hostel/bed/tree?building_id=' + id).then((res) => {
         const data = res.data
         this.room = data
         console.log('room-tree', data)
+        this.loading = false
       })
     },
 

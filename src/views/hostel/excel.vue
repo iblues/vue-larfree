@@ -33,6 +33,7 @@
 
 <script>
 import OnlineExcel from '@/components/Excel/index'
+import { Message } from 'element-ui'
 
 export default {
   name: 'Excel',
@@ -151,7 +152,6 @@ export default {
       data = this.excelToJson(data)
       const changeJson = this.diff(this.cellJsonData, data)
       this.$http.post('/log/excel', { 'json': data, 'change_json': changeJson, 'action': 'live' }).then((res) => {
-        const rep = res.data
         this.$message({
           message: '保存成功',
           type: 'success'
@@ -159,21 +159,14 @@ export default {
 
         this.cellJsonData = data
         this.celldata = this.jsonToExcel(data)
-
-        // 日志变更id
-        const logId = rep.id
-
-        // 再请求变更数据;
-        this.$http.post('/hostel/bed/excel_change', { 'logId': logId, 'json': data, 'action': 'live' }).then((res) => {
-          this.loading = false
-          this.$message({
-            message: '保存成功',
-            type: 'success'
-          })
-          // console.log(rep)
-        })
-
-        // console.log(rep)
+        this.loading = false
+      }).catch((error) => {
+        this.loading = false
+        // Message({
+        //   showClose: true,
+        //   message: error.response.data.msg || '网络错误',
+        //   type: 'error'
+        // })
       })
     },
 
@@ -196,10 +189,10 @@ export default {
         }
         // 说明被删除了
         if (!newRow[4]) {
-          diff[room] = ''
+          diff[room] = newRow
         } else {
           if (newRow[4].v !== row[4].v) {
-            diff[room] = newRow[4].v
+            diff[room] = newRow
           }
         }
       }

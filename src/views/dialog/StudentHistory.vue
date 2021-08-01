@@ -2,11 +2,16 @@
 
   <div class="main">
     <span>
-      张三&nbsp;&nbsp;&nbsp;&nbsp;男&nbsp;&nbsp;&nbsp;&nbsp;文学院-语言学&nbsp;&nbsp;&nbsp;&nbsp;021级02班
-      <br>   <br>变动历史:
+      {{ student.name }}&nbsp;&nbsp;&nbsp;&nbsp;{{ student.sex }}&nbsp;&nbsp;&nbsp;&nbsp;{{ student.college }}-{{ student.major }}-{{ student.level }}
+      &nbsp;&nbsp;{{ student.grade }}级&nbsp;&nbsp;{{ student.class }}
+      <br>   <br>入驻历史:
       <ul class="history">
-        <li>2020-06-21 从重德苑四幢 403-1 更换为 重德苑四幢404-1<br>  -操作人:李四</li>
-        <li>2020-08-21 从重德苑四幢 403-1 更换为 重德苑四幢404-1<br>  -操作人:李四</li>
+        <li v-for="row in history">{{ row.created_at }}<br>
+
+          <span v-if="row.student_id == id">入住 {{ row.bed?row.bed.name:'' }}  </span>
+          <span v-else>搬出 {{ row.bed?row.bed.name:'' }}  </span>
+
+          <br>  操作人:{{ row.admin.name }}</li>
       </ul>
 
     </span>
@@ -25,6 +30,18 @@ export default {
   },
   data() {
     return {
+      student: {
+        name: '',
+        number: '',
+        sex: '',
+        level: '',
+        major: '',
+        college: '',
+        grade: '',
+        class: ''
+      },
+      history: []
+
     }
   },
   computed: {
@@ -39,8 +56,14 @@ export default {
     }
   },
   created() {
-    this.$emit('dialogTitle', '编辑')
-    this.$emit('dialogLock', true)
+    this.$http.get('/user/student/' + this.id).then((res) => {
+      this.student = res.data
+    })
+
+    this.$http.get('/log/bed_change/?student_all=' + this.id).then((res) => {
+      console.log('history', res.data)
+      this.history = res.data
+    })
   },
   methods: {
     back() {
@@ -50,7 +73,7 @@ export default {
 }
 </script>
 <style scoped>
-    .main {
-        padding: 20px 25px;
-    }
+  .main {
+    padding: 20px 25px;
+  }
 </style>

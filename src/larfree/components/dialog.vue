@@ -80,21 +80,22 @@ export default {
         data.dialog.title = data.title
       }
     },
-    dialogClose(index){
-      this.dialogs[index].visible=0;
+    dialogClose(index) {
+      this.dialogs[index].visible = 0
     },
     dialogConfirmClose: function(done, index) {
+      done()
       // console.log('close',index);
-      console.log(index);
-      if (this.dialogConfirmCancel[index]) {
-        this.$confirm('是否放弃编辑？')
-          .then(() => {
-            done()
-          })
-          .catch(() => {})
-      } else {
-        done()
-      }
+      // console.log(index);
+      // if (this.dialogConfirmCancel[index]) {
+      //   this.$confirm('是否放弃编辑？')
+      //     .then(() => {
+      //       done()
+      //     })
+      //     .catch(() => {})
+      // } else {
+      //   done()
+      // }
     }
 
   }
