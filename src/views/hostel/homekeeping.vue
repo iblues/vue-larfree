@@ -59,14 +59,19 @@ export default {
     }
   },
   created() {
-    // this.$http.get('/log/excel?pageSize=1&type=houseKeeping').then((data) => {
-    //   this.loading = false
-    //   // this.celldata = data.data[0].json;
-    // })
+    this.loading = true
+    this.$http.get('/log/excel?pageSize=1&action=houseKeeping').then((data) => {
+      this.loading = false
+      this.cellJsonData = data.data[0].json
+      this.celldata = this.jsonToExcel(data.data[0].json)
+      console.log('getJson', this.celldata)
+      this.subTitle = '最后编辑人:' + data.data[0].admin.name + ' 编辑时间:' + data.data[0].created_at
+    })
   },
   methods: {
     saveExcel(data) {
       this.loading = true
+      data = this.excelToJson(data)
       this.$http.post('/log/excel', { 'json': data, 'action': 'houseKeeping' }).then((res) => {
         const rep = res.data
         this.loading = false
@@ -76,6 +81,41 @@ export default {
         })
         console.log(rep)
       })
+    },
+    excelToJson(data) {
+      const json = []
+      for (const num in data) {
+        // 跳过第一行
+        if (num === 0) {
+          continue
+        }
+        const row = data[num]
+        const rows = []
+        for (let i = 0; i < 16; i++) {
+          const v = row[i] ? row[i].v : ''
+          rows[i] = { 'v': v }
+        }
+        json.push(rows)
+      }
+      console.log('toJson', json)
+      return json
+    },
+    // 把标准json转为excel可以识别的
+    jsonToExcel(json) {
+      const excel = []
+      for (const number in json) {
+        const row = json[number]
+        for (const rowKey in row) {
+          const cell = {
+            'r': number, // 行
+            'c': rowKey, // 列
+            'v': row[rowKey] ? row[rowKey].v : ''
+          }
+          excel.push(cell)
+        }
+      }
+      console.log('jsonToExcel', excel)
+      return excel
     }
   }
 }

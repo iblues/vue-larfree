@@ -13,20 +13,6 @@
       style="margin:0px;padding:0px;position:absolute;width:100%;left: 0px;top: 100px;bottom:0px;"
     />
 
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="30%"
-      :before-close="handleClose"
-    >
-      <span>输入变更备注</span><br /><br />
-      <el-input v-model="comment"></el-input>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-      </span>
-    </el-dialog>
-
   </div>
 </template>
 
@@ -75,8 +61,7 @@ export default {
     return {
       dialogVisible: false,
       selected: '',
-      isMaskShow: false,
-      comment:'',
+      isMaskShow: false
     }
   },
   destroyed() {
@@ -86,11 +71,13 @@ export default {
   mounted() {
     // In some cases, you need to use $nextTick
     // this.$nextTick(() => {
-    const data = luckysheet.transToCellData(this.cellData)
+    // eslint-disable-next-line no-undef
+    // const data = luckysheet.transToCellData(this.cellData)
+    const data = this.cellData
     console.log('excelInit', data)
-    for (const index in this.cellTitle) {
-      data.push(this.cellTitle[index])
-    }
+    // for (const index in this.cellTitle) {
+    // data.push(this.cellTitle[index])
+    // }
     setTimeout(() => {
       this.createExcel(data)
     }, 500)
@@ -147,13 +134,12 @@ export default {
       })
     },
     goSave() {
-      this.dialogVisible = true
+      this.saveExcel()
     },
-    saveExcel(evt) {
-      console.log('保存')
+    saveExcel() {
       const sheet = window.luckysheet.getLuckysheetfile()
       const data = sheet[0].data
-      const rows = new Array()
+      const rows = []
       for (const index in data) {
         const row = data[index]
         if (row[0]) {
@@ -163,18 +149,12 @@ export default {
       this.$emit('save', rows)
       console.log('内容', rows)
     },
-    handleClose(done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          saveExcel()
-          done()
-        })
-        .catch(_ => {})
-    },
 
     exportExcel() {
+      // eslint-disable-next-line no-undef
       const data = luckysheet.getAllSheets()[0].data
 
+      // eslint-disable-next-line no-undef
       const out = XLSX.utils.book_new()
       const aoa = [[]]
 
