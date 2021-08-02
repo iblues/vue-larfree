@@ -93,6 +93,15 @@ export default {
           title: 'Excel表头', // 设定表格名称
           lang: 'zh', // 设定表格语言
           plugins: ['chart'],
+          hook: {
+            cellUpdateBefore: function(r, c, value, isRefresh) {
+              // 标题行
+              if (r === 0) {
+                return false
+              }
+              console.info('cellUpdateBefore', r, c, value, isRefresh)
+            }
+          },
           data: [
             {
               'name': '主表', // 工作表名称
@@ -134,6 +143,7 @@ export default {
       })
     },
     goSave() {
+      window.luckysheet.exitEditMode()
       this.saveExcel()
     },
     saveExcel() {
