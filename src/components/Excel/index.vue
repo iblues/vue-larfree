@@ -123,7 +123,7 @@ export default {
               'isPivotTable': false, // 是否数据透视表
               'pivotTable': {}, // 数据透视表设置
               'filter_select': {}, // 筛选范围
-              'filter': null, // 筛选配置
+              'filter': [], // 筛选配置
               'luckysheet_alternateformat_save': [], // 交替颜色
               'luckysheet_alternateformat_save_modelCustom': [], // 自定义交替颜色
               'luckysheet_conditionformat_save': {}, // 条件格式

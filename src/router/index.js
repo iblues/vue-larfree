@@ -235,7 +235,7 @@ export const constantRoutes = [
   {
     hidden: true,
     path: '/dialog/student/bed/:id?/:module?',
-    meta: { dialog: true, title: '床位历史', width: 'w800' },
+    meta: { dialog: true, title: '学生信息', width: 'w800' },
     component: require('@/views/dialog/StudentHistory.vue').default,
     props: true
   },
@@ -377,6 +377,7 @@ export const asyncRoutes = [
   },
   {
     path: 'config',
+    uniqueKey: 'config',
     component: () => import('@/views/config/index'),
     name: '系统配置',
     meta: { title: '系统配置', icon: 'list' }

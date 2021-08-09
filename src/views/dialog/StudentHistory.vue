@@ -2,8 +2,21 @@
 
   <div class="main">
     <span>
-      {{ student.name }}&nbsp;&nbsp;&nbsp;&nbsp;{{ student.sex }}&nbsp;&nbsp;&nbsp;&nbsp;{{ student.college }}-{{ student.major }}-{{ student.level }}
-      &nbsp;&nbsp;{{ student.grade }}级&nbsp;&nbsp;{{ student.class }}
+      {{ student.name }}&nbsp;&nbsp;&nbsp;&nbsp;{{ student.sex }}&nbsp;&nbsp;&nbsp;&nbsp;
+      <br> <br>{{ student.college }}-{{ student.major }}-{{ student.level }}
+      <br> <br>{{ student.grade }}级&nbsp;&nbsp;{{ student.class }}
+
+      <br> <br>
+      调整床位
+      <el-row style="padding-top: 5px">
+        <el-col :span="14">
+          <lar-field-select :field-name="床位"  placeholder="请输入关键词">  </lar-field-select>
+        </el-col>
+        <el-col :span="4">
+          <el-button>修改</el-button>
+        </el-col>
+      </el-row>
+
       <br>   <br>入驻历史:
       <ul class="history">
         <li v-for="row in history">{{ row.created_at }}<br>

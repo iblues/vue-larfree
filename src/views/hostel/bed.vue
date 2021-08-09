@@ -9,7 +9,7 @@
         >
           <el-submenu index="0">
             <template slot="title">
-              <i class="el-icon-location" />
+              <i class="el-icon-location"/>
               <span>狮子山校区</span>
             </template>
             <template v-for="b in building">
@@ -21,6 +21,30 @@
       </el-col>
 
       <el-col v-loading="loading" :span="21">
+
+        <div>
+          <el-row style="margin: 20px" :gutter="20">
+            <el-col :span="4">
+              <lar-field-input action="search" fieldName="学号" fieldKey="number"></lar-field-input>
+            </el-col>
+
+            <el-col :span="4">
+              <lar-field-input action="search" fieldName="房间" fieldKey="number"></lar-field-input>
+            </el-col>
+
+            <el-col :span="4">
+              <lar-field-input action="search" fieldName="楼层" fieldKey="number"></lar-field-input>
+            </el-col>
+
+            <el-col :span="4">
+              <lar-field-input action="search" fieldName="是否空缺" fieldKey="number"></lar-field-input>
+            </el-col>
+
+            <el-col :span="4">
+              <el-button type="primary">搜索</el-button>
+            </el-col>
+          </el-row>
+        </div>
 
         <el-col v-for="r in room" :span="3" style="width: 200px;margin: 10px;text-align: center;">
           <el-card shadow="hover" style="margin: 5px;min-height: 200px;z">
@@ -36,72 +60,72 @@
       </el-col>
 
     </el-row>
-    <lar-dialog />
+    <lar-dialog/>
   </div>
 </template>
 
 <script>
-import OnlineExcel from '@/components/Excel/index'
-import LarDialog from '@/larfree/components/dialog'
+  import OnlineExcel from '@/components/Excel/index'
+  import LarDialog from '@/larfree/components/dialog'
 
-export default {
-  name: 'Excel',
-  components: { LarDialog, OnlineExcel },
-  data() {
-    return {
-      room: {},
-      building: {},
-      initId: 16,
-      loading: false
-    }
-  },
-  created() {
-    this.getRoom(this.initId)
-    this.getBuilding()
-  },
-  methods: {
-    showStudent(r) {
-      console.log('查看学生', r)
-      if (r.student_id) {
-        this.$router.push('/dialog/student/bed/' + r.student_id)
+  export default {
+    name: 'Excel',
+    components: { LarDialog, OnlineExcel },
+    data () {
+      return {
+        room: {},
+        building: {},
+        initId: 16,
+        loading: false,
       }
     },
-    getBuilding() {
-      this.$http.get('/hostel/building').then((res) => {
-        const data = res.data
-        this.building = data
-      })
+    created () {
+      this.getRoom(this.initId)
+      this.getBuilding()
     },
-    getRoom(id) {
-      this.loading = true
-      this.$http.get('/hostel/bed/tree?building_id=' + id).then((res) => {
-        const data = res.data
-        this.room = data
-        console.log('room-tree', data)
-        this.loading = false
-      })
-    },
+    methods: {
+      showStudent (r) {
+        console.log('查看学生', r)
+        if (r.student_id) {
+          this.$router.push('/dialog/student/bed/' + r.student_id)
+        }
+      },
+      getBuilding () {
+        this.$http.get('/hostel/building').then((res) => {
+          const data = res.data
+          this.building = data
+        })
+      },
+      getRoom (id) {
+        this.loading = true
+        this.$http.get('/hostel/bed/tree?building_id=' + id).then((res) => {
+          const data = res.data
+          this.room = data
+          console.log('room-tree', data)
+          this.loading = false
+        })
+      },
 
-    changeBuilding(b) {
-      this.getRoom(b.id)
+      changeBuilding (b) {
+        this.getRoom(b.id)
+      },
+      handleNodeClick (data) {
+        console.log(data)
+      },
     },
-    handleNodeClick(data) {
-      console.log(data)
-    }
+    // beforeRouteLeave(to, from, next) {
+    //   // 判断数据是否修改，如果修改按这个执行，没修改，则直接执行离开此页面
+    //   // 弹窗显示
+    //   this.$confirm('是否离开页面?', '提示', {
+    //     confirmButtonText: '确定',
+    //     cancelButtonText: '取消',
+    //     type: 'warning'
+    //   }).then(() => {
+    //     next()
+    //   }).catch(() => {
+    //   })
+    // }
   }
-  // beforeRouteLeave(to, from, next) {
-  //   // 判断数据是否修改，如果修改按这个执行，没修改，则直接执行离开此页面
-  //   // 弹窗显示
-  //   this.$confirm('是否离开页面?', '提示', {
-  //     confirmButtonText: '确定',
-  //     cancelButtonText: '取消',
-  //     type: 'warning'
-  //   }).then(() => {
-  //     next()
-  //   }).catch(() => {
-  //   })
-  // }
-}
 </script>
 
 <style>
@@ -109,9 +133,11 @@ export default {
   .rooms .el-card__body {
     padding: 0 !important;
   }
-  .rooms .history li{
+
+  .rooms .history li {
     padding: 5px;
     line-height: 150%;
   }
+
   /*#luckysheet_info_detail{display: none !important;}*/
 </style>
