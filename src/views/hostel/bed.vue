@@ -50,8 +50,8 @@
           <el-card shadow="hover" style="margin: 5px;min-height: 200px;z">
             <div style="background: rgba(0,0,0,0.15);padding: 2px 5px">{{ r.name }}</div>
             <template v-for="bed in r['beds']">
-              <div style="margin: 5px;cursor:pointer;" @click="showStudent(bed)">
-                <div>{{ bed.bed }}:{{ bed.student?bed.student.name:'空' }}</div>
+              <div style="margin: 5px;cursor:pointer;text-align: left;margin-left: 20px" @click="showStudent(bed)">
+                <div>{{ bed.bed }}:{{ bed.student?bed.student.name:'未入住' }}</div>
               </div>
             </template>
           </el-card>
